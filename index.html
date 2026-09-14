@@ -1827,11 +1827,15 @@
     <div class="video-showcase-box">
       <div class="video-player-wrap">
         <!-- 修正 1：把 src 改成正確的 YouTube 嵌入網址與控制參數 -->
-        <iframe id="mainVideo" width="100%" height="500" 
-                src="https://www.youtube.com/embed/e-WS_LeqbnY?si=fmmJUBwQ01S6sFjZ&enablejsapi=1" 
-                title="YouTube video player" frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        <iframe
+        id="mainVideo"
+        width="100%"
+        height="500"
+        src="https://www.youtube.com/embed/e-WS_LeqbnY?enablejsapi=1&playsinline=1"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
         </iframe>
       </div>
 
@@ -1878,7 +1882,7 @@
 </section>
 
 <!-- 修正 2：載入正確的 YouTube 官方 API 腳本網址 -->
-<script src="https://youtube.com"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- 07 角色體系與品牌世界觀 (Wuplet Mascot Characters) -->
   <section id="mascots" class="section">
@@ -2718,86 +2722,122 @@
       });
     }
 
- <script>
   let player;
   let timeUpdateInterval;
 
-  // 1. YouTube API 準備好時會自動執行此函式
+  // YouTube API 載入完成後自動執行
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('mainVideo', {
       events: {
-        'onStateChange': onPlayerStateChange
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
       }
     });
-    
-    // 初始化章節點擊功能
+  }
+
+  // 影片播放器真正準備完成後
+  function onPlayerReady(event) {
     initVideoChapters();
   }
 
-  // 2. 設定章節點擊跳轉
+  // 點擊右側章節 → 跳到指定秒數
   function initVideoChapters() {
     const chapterItems = document.querySelectorAll('.chapter-item');
-    if (!chapterItems.length) return;
 
     chapterItems.forEach(item => {
-      item.addEventListener('click', () => {
-        if (!player || typeof player.seekTo !== 'function') return;
-        
-        const targetTime = parseFloat(item.dataset.time);
-        player.seekTo(targetTime, true);
-        player.playVideo(); // 跳轉後自動播放
+      item.addEventListener('click', function () {
 
-        // 手動切換 active 狀態
+        const targetTime = Number(this.dataset.time);
+
+        console.log('跳轉到：', targetTime);
+
+        if (!player || typeof player.seekTo !== 'function') {
+          console.log('YouTube Player 尚未準備完成');
+          return;
+        }
+
+        player.seekTo(targetTime, true);
+        player.playVideo();
+
+        // 更新右側 active 狀態
         chapterItems.forEach(c => c.classList.remove('active'));
-        item.classList.add('active');
+        this.classList.add('active');
       });
     });
   }
 
-  // 3. 當影片狀態改變（如播放中），定期檢查時間並更新章節亮燈
+  // 播放時持續偵測目前所在章節
   function onPlayerStateChange(event) {
-    // YT.PlayerState.PLAYING 狀態碼是 1 代表正在播放
-    if (event.data === 1) {
-      timeUpdateInterval = setInterval(updateChaptersActiveStatus, 500);
-    } else {
-      clearInterval(timeUpdateInterval);
+
+    clearInterval(timeUpdateInterval);
+
+    if (event.data === YT.PlayerState.PLAYING) {
+      timeUpdateInterval = setInterval(
+        updateChaptersActiveStatus,
+        500
+      );
     }
   }
 
-  // 4. 重現你原本的 timeupdate 邏輯：檢查當前時間並更新 active
+  // 根據影片目前秒數更新右側章節
   function updateChaptersActiveStatus() {
-    if (!player || typeof player.getCurrentTime !== 'function') return;
-    
-    const cur = player.getCurrentTime(); // 取得 YouTube 當前秒數
+
+    if (!player || typeof player.getCurrentTime !== 'function') {
+      return;
+    }
+
+    const currentTime = player.getCurrentTime();
     const chapterItems = document.querySelectorAll('.chapter-item');
 
-    chapterItems.forEach((item, i) => {
-      const timeSec = parseFloat(item.dataset.time);
-      const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
-      
-      if (cur >= timeSec && cur < nextTimeSec) {
-        chapterItems.forEach(c => c.classList.remove('active'));
+    chapterItems.forEach((item, index) => {
+
+      const startTime = Number(item.dataset.time);
+
+      const nextItem = chapterItems[index + 1];
+
+      const endTime = nextItem
+        ? Number(nextItem.dataset.time)
+        : Infinity;
+
+      if (
+        currentTime >= startTime &&
+        currentTime < endTime
+      ) {
+
+        chapterItems.forEach(c =>
+          c.classList.remove('active')
+        );
+
         item.classList.add('active');
       }
     });
   }
-</script>
 
-    function initBlueprint() {
-      const tabBtns = document.querySelectorAll('.bp-tab-btn');
-      const panes = document.querySelectorAll('.bp-content-pane');
+  function initBlueprint() {
+    const tabBtns = document.querySelectorAll('.bp-tab-btn');
+    const panes = document.querySelectorAll('.bp-content-pane');
 
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          tabBtns.forEach(b => b.classList.remove('active'));
-          panes.forEach(p => p.classList.remove('active'));
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
 
-          btn.classList.add('active');
-          const targetId = btn.dataset.target;
-          document.getElementById(targetId)?.classList.add('active');
-        });
+        tabBtns.forEach(b =>
+          b.classList.remove('active')
+        );
+
+        panes.forEach(p =>
+          p.classList.remove('active')
+        );
+
+        btn.classList.add('active');
+
+        const targetId = btn.dataset.target;
+
+        document
+          .getElementById(targetId)
+          ?.classList.add('active');
       });
-    }
+    });
+  }
   </script>
 
   
