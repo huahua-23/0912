@@ -1827,7 +1827,12 @@
       <div class="video-showcase-box">
         <div class="video-player-wrap">
           <!-- 替換後的程式碼 -->
-          <iframe id="mainVideo" width="100%" height="500" src="https://www.youtube.com/embed/e-WS_LeqbnY?si=fmmJUBwQ01S6sFjZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe id="mainVideo" width="100%" height="500" 
+          src="https://youtube.com" 
+          title="YouTube video player" frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+          </iframe>
         </div>
 
         <div class="video-chapters-panel">
@@ -2710,32 +2715,69 @@
       });
     }
 
-    function initVideo() {
-      const video = document.getElementById('mainVideo');
-      const chapterItems = document.querySelectorAll('.chapter-item');
-      if (!video || !chapterItems.length) return;
+ let player;
+let timeUpdateInterval;
 
-      chapterItems.forEach(item => {
-        item.addEventListener('click', () => {
-          video.currentTime = parseFloat(item.dataset.time);
-          video.play();
-          chapterItems.forEach(c => c.classList.remove('active'));
-          item.classList.add('active');
-        });
-      });
-
-      video.addEventListener('timeupdate', () => {
-        const cur = video.currentTime;
-        chapterItems.forEach((item, i) => {
-          const timeSec = parseFloat(item.dataset.time);
-          const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
-          if (cur >= timeSec && cur < nextTimeSec) {
-            chapterItems.forEach(c => c.classList.remove('active'));
-            item.classList.add('active');
-          }
-        });
-      });
+// 1. YouTube API 準備好時會自動執行此函式
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('mainVideo', {
+    events: {
+      'onStateChange': onPlayerStateChange
     }
+  });
+  
+  // 初始化章節點擊功能
+  initVideoChapters();
+}
+
+// 2. 設定章節點擊跳轉
+function initVideoChapters() {
+  const chapterItems = document.querySelectorAll('.chapter-item');
+  if (!chapterItems.length) return;
+
+  chapterItems.forEach(item => {
+    item.addEventListener('click', () => {
+      if (!player || typeof player.seekTo !== 'function') return;
+      
+      const targetTime = parseFloat(item.dataset.time);
+      player.seekTo(targetTime, true);
+      player.playVideo(); // 跳轉後自動播放
+
+      // 手動切換 active 狀態
+      chapterItems.forEach(c => c.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+}
+
+// 3. 當影片狀態改變（如播放中），定期檢查時間並更新章節亮燈
+function onPlayerStateChange(event) {
+  // YT.PlayerState.PLAYING 狀態碼是 1 代表正在播放
+  if (event.data === 1) {
+    timeUpdateInterval = setInterval(updateChaptersActiveStatus, 500);
+  } else {
+    clearInterval(timeUpdateInterval);
+  }
+}
+
+// 4. 重現你原本的 timeupdate 邏輯：檢查當前時間並更新 active
+function updateChaptersActiveStatus() {
+  if (!player || typeof player.getCurrentTime !== 'function') return;
+  
+  const cur = player.getCurrentTime(); // 取得 YouTube 當前秒數
+  const chapterItems = document.querySelectorAll('.chapter-item');
+
+  chapterItems.forEach((item, i) => {
+    const timeSec = parseFloat(item.dataset.time);
+    const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
+    
+    if (cur >= timeSec && cur < nextTimeSec) {
+      chapterItems.forEach(c => c.classList.remove('active'));
+      item.classList.add('active');
+    }
+  });
+}
+
 
     function initBlueprint() {
       const tabBtns = document.querySelectorAll('.bp-tab-btn');
@@ -2753,5 +2795,8 @@
       });
     }
   </script>
+
+  <script src="https://youtube.com"></script>
+
 </body>
 </html>
