@@ -1791,7 +1791,7 @@
 
       <div class="slides-viewer-wrap">
         <div class="slides-main-stage">
-          <img id="slideCurrentImg" src="pdf_slides/v2_slide_1.png" alt="當前簡報投影片" class="slide-current-img">
+          <img id="slideCurrentImg" src="v2_slide_1.png" alt="當前簡報投影片" class="slide-current-img">
           <button id="btnSlidePrev" class="slide-nav-btn prev" title="上一頁">‹</button>
           <button id="btnSlideNext" class="slide-nav-btn next" title="下一頁">›</button>
           <div id="slideCounter" class="slide-counter-badge">1 / 8</div>
@@ -2246,7 +2246,7 @@
       </div>
 
       <div style="text-align: center;">
-        <img src="pdf_slides/v2_slide_7.png" alt="未來擴散性圖解" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-light);">
+        <img src="v2_slide_7.png" alt="未來擴散性圖解" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-light);">
       </div>
     </div>
   </section>
@@ -2438,7 +2438,7 @@
     const slideData = [
       {
         num: 1,
-        file: 'pdf_slides/v2_slide_1.png',
+        file: 'v2_slide_1.png',
         title: 'Slide 1：封面 — 伍伴 Wuplet',
         timing: '0:00 - 0:25 (建議 25秒)',
         summary: '一個人學，也不必一個人開始 / Learn on your own. Never start alone.',
@@ -2446,7 +2446,7 @@
       },
       {
         num: 2,
-        file: 'pdf_slides/v2_slide_2.png',
+        file: 'v2_slide_2.png',
         title: 'Slide 2：企業實務痛點 — 有資源不等於有行動',
         timing: '0:25 - 1:10 (建議 45秒)',
         summary: 'Choice Overload（過度選擇） vs. Decision Paralysis（決策癱瘓）。Resource richness ≠ Action clarity。',
@@ -2454,7 +2454,7 @@
       },
       {
         num: 3,
-        file: 'pdf_slides/v2_slide_3.png',
+        file: 'v2_slide_3.png',
         title: 'Slide 3：專案核心方向 — Social presence / Soft accountability / Shared progress',
         timing: '1:10 - 1:50 (建議 40秒)',
         summary: '有時候，我們缺的不是更多意志力，而是身旁剛好有一個人也站起來了。',
@@ -2462,7 +2462,7 @@
       },
       {
         num: 4,
-        file: 'pdf_slides/v2_slide_4.png',
+        file: 'v2_slide_4.png',
         title: 'Slide 4：核心實作機制 — 各自做自己的事，卻一起往前',
         timing: '1:50 - 2:40 (建議 50秒)',
         summary: 'Weekly Crew（每週固定5人）+ 無排行榜 + 允許隱藏任務 + 休息也合法 (Ambient co-presence)',
@@ -2470,7 +2470,7 @@
       },
       {
         num: 5,
-        file: 'pdf_slides/v2_slide_5.png',
+        file: 'v2_slide_5.png',
         title: 'Slide 5：相聚哲學 — Meet briefly. Live fully. Come back together.',
         timing: '2:40 - 3:25 (建議 45秒)',
         summary: '一天三次短暫碰面：Morning (Set Out) → Midday (Live fully) → Evening (Come Back)。',
@@ -2478,7 +2478,7 @@
       },
       {
         num: 6,
-        file: 'pdf_slides/v2_slide_6.png',
+        file: 'v2_slide_6.png',
         title: 'Slide 6：AI 導入效益 — 讓 AI 減少選擇，讓真人提供陪伴',
         timing: '3:25 - 4:00 (建議 35秒)',
         summary: 'AI reduces decision friction. Humans provide companionship. AI Mission Picker 縮短 80% 決策啟動時長。',
@@ -2486,7 +2486,7 @@
       },
       {
         num: 7,
-        file: 'pdf_slides/v2_slide_7.png',
+        file: 'v2_slide_7.png',
         title: 'Slide 7：未來擴散性 — 從 LiveABC 附加功能到獨立 App',
         timing: '4:00 - 4:30 (建議 30秒)',
         summary: 'Phase 1: LiveABC 學習啟動層；Phase 2: 獨立版「伍伴 Wuplet」（跨閱讀、論文、課程、健身、程式全場景）。',
@@ -2494,7 +2494,7 @@
       },
       {
         num: 8,
-        file: 'pdf_slides/v1_slide_8.png',
+        file: 'v1_slide_8.png',
         title: 'Bonus 彩蛋：Wuplet 營地全景插畫與品牌箴言',
         timing: '4:30 - 4:55 (結語與回顧)',
         summary: '五人成伍，有人作伴。「做溫柔的減法，把人送回真實世界去行動。」',
@@ -2645,8 +2645,6 @@
       // 投影片初始化
       initSlides();
 
-      // 影片章節快速跳轉
-      initVideo();
 
       // 六大架構 Tab
       initBlueprint();
