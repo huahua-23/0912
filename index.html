@@ -1815,67 +1815,69 @@
     </div>
   </section>
 
-  <!-- 06 專案發表影音展示區 (Video Showcase) -->
-  <section id="video" class="section section-dark">
-    <div class="container">
-      <div class="section-badge dark">06 ｜ 專案成果影音</div>
-      <h2 class="section-title"> 口頭發表影音觀賞</h2>
-      <p class="section-subtitle">
-        語音介紹專題精神，建議調整至1.5倍速，點擊右側章節可快速跳轉至指定段落。
-      </p>
+ <!-- 06 專案發表影音展示區 (Video Showcase) -->
+<section id="video" class="section section-dark">
+  <div class="container">
+    <div class="section-badge dark">06 ｜ 專案成果影音</div>
+    <h2 class="section-title"> 口頭發表影音觀賞</h2>
+    <p class="section-subtitle">
+      語音介紹專題精神，建議調整至1.5倍速，點擊右側章節可快速跳轉至指定段落。
+    </p>
 
-      <div class="video-showcase-box">
-        <div class="video-player-wrap">
-          <!-- 替換後的程式碼 -->
-          <iframe id="mainVideo" width="100%" height="500" 
-          src="https://youtube.com" 
-          title="YouTube video player" frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-          </iframe>
-        </div>
+    <div class="video-showcase-box">
+      <div class="video-player-wrap">
+        <!-- 修正 1：把 src 改成正確的 YouTube 嵌入網址與控制參數 -->
+        <iframe id="mainVideo" width="100%" height="500" 
+                src="https://youtube.com" 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+      </div>
 
-        <div class="video-chapters-panel">
-          <h3>簡報時間軸章節導覽</h3>
-          <p class="video-sub">簡報時間軸章節導覽</p>
-          <ul class="chapter-list">
-            <li class="chapter-item active" data-time="0">
-              <span class="chapter-time">00:00</span>
-              <span class="chapter-title">開場破冰：身分介紹與痛點引言</span>
-            </li>
-            <li class="chapter-item" data-time="41">
-              <span class="chapter-time">00:41</span>
-              <span class="chapter-title">企業實務痛點：有資源不等於有行動</span>
-            </li>
-            <li class="chapter-item" data-time="78">
-              <span class="chapter-time">01:18</span>
-              <span class="chapter-title">專案定位：各自生活，有伴前進</span>
-            </li>
-            <li class="chapter-item" data-time="121">
-              <span class="chapter-time">02:01</span>
-              <span class="chapter-title">實作機制：Weekly Crew × 三次相遇</span>
-            </li>
-            <li class="chapter-item" data-time="385">
-              <span class="chapter-time">06:25</span>
-              <span class="chapter-title">AI 工具展示：AI Mission Picker 漏斗</span>
-            </li>
-            <li class="chapter-item" data-time="441">
-              <span class="chapter-time">07:21</span>
-              <span class="chapter-title">AI 導入效益：縮短 80% 決策時長</span>
-            </li>
-            <li class="chapter-item" data-time="471">
-              <span class="chapter-time">07:51</span>
-              <span class="chapter-title">未來擴散性：從 LiveABC 到全場景生態</span>
-            </li>
-            <li class="chapter-item" data-time="547">
-              <span class="chapter-time">09:07</span>
-              <span class="chapter-title">個人成果結語：做溫柔的減法</span>
-            </li>
-          </ul>
-        </div>
+      <div class="video-chapters-panel">
+        <h3>簡報時間軸章節導覽</h3>
+        <p class="video-sub">簡報時間軸章節導覽</p>
+        <ul class="chapter-list">
+          <li class="chapter-item active" data-time="0">
+            <span class="chapter-time">00:00</span>
+            <span class="chapter-title">開場破冰：身分介紹與痛點引言</span>
+          </li>
+          <li class="chapter-item" data-time="41">
+            <span class="chapter-time">00:41</span>
+            <span class="chapter-title">企業實務痛點：有資源不等於有行動</span>
+          </li>
+          <li class="chapter-item" data-time="78">
+            <span class="chapter-time">01:18</span>
+            <span class="chapter-title">專案定位：各自生活，有伴前進</span>
+          </li>
+          <li class="chapter-item" data-time="121">
+            <span class="chapter-time">02:01</span>
+            <span class="chapter-title">實作機制：Weekly Crew × 三次相遇</span>
+          </li>
+          <li class="chapter-item" data-time="385">
+            <span class="chapter-time">06:25</span>
+            <span class="chapter-title">AI 工具展示：AI Mission Picker 漏斗</span>
+          </li>
+          <li class="chapter-item" data-time="441">
+            <span class="chapter-time">07:21</span>
+            <span class="chapter-title">AI 導入效益：縮短 80% 決策時長</span>
+          </li>
+          <li class="chapter-item" data-time="471">
+            <span class="chapter-time">07:51</span>
+            <span class="chapter-title">未來擴散性：從 LiveABC 到全場景生態</span>
+          </li>
+          <li class="chapter-item" data-time="547">
+            <span class="chapter-time">09:07</span>
+            <span class="chapter-title">個人成果結語：做溫柔的減法</span>
+          </li>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- 修正 2：載入正確的 YouTube 官方 API 腳本網址 -->
 <script src="https://youtube.com"></script>
 
   <!-- 07 角色體系與品牌世界觀 (Wuplet Mascot Characters) -->
@@ -2716,69 +2718,71 @@
       });
     }
 
- let player;
-let timeUpdateInterval;
+<!-- 修正 3：加入 <script> 標籤包覆，JavaScript 程式碼才能正確執行 -->
+<script>
+  let player;
+  let timeUpdateInterval;
 
-// 1. YouTube API 準備好時會自動執行此函式
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('mainVideo', {
-    events: {
-      'onStateChange': onPlayerStateChange
-    }
-  });
-  
-  // 初始化章節點擊功能
-  initVideoChapters();
-}
-
-// 2. 設定章節點擊跳轉
-function initVideoChapters() {
-  const chapterItems = document.querySelectorAll('.chapter-item');
-  if (!chapterItems.length) return;
-
-  chapterItems.forEach(item => {
-    item.addEventListener('click', () => {
-      if (!player || typeof player.seekTo !== 'function') return;
-      
-      const targetTime = parseFloat(item.dataset.time);
-      player.seekTo(targetTime, true);
-      player.playVideo(); // 跳轉後自動播放
-
-      // 手動切換 active 狀態
-      chapterItems.forEach(c => c.classList.remove('active'));
-      item.classList.add('active');
+  // 1. YouTube API 準備好時會自動執行此函式
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('mainVideo', {
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
     });
-  });
-}
-
-// 3. 當影片狀態改變（如播放中），定期檢查時間並更新章節亮燈
-function onPlayerStateChange(event) {
-  // YT.PlayerState.PLAYING 狀態碼是 1 代表正在播放
-  if (event.data === 1) {
-    timeUpdateInterval = setInterval(updateChaptersActiveStatus, 500);
-  } else {
-    clearInterval(timeUpdateInterval);
-  }
-}
-
-// 4. 重現你原本的 timeupdate 邏輯：檢查當前時間並更新 active
-function updateChaptersActiveStatus() {
-  if (!player || typeof player.getCurrentTime !== 'function') return;
-  
-  const cur = player.getCurrentTime(); // 取得 YouTube 當前秒數
-  const chapterItems = document.querySelectorAll('.chapter-item');
-
-  chapterItems.forEach((item, i) => {
-    const timeSec = parseFloat(item.dataset.time);
-    const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
     
-    if (cur >= timeSec && cur < nextTimeSec) {
-      chapterItems.forEach(c => c.classList.remove('active'));
-      item.classList.add('active');
-    }
-  });
-}
+    // 初始化章節點擊功能
+    initVideoChapters();
+  }
 
+  // 2. 設定章節點擊跳轉
+  function initVideoChapters() {
+    const chapterItems = document.querySelectorAll('.chapter-item');
+    if (!chapterItems.length) return;
+
+    chapterItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (!player || typeof player.seekTo !== 'function') return;
+        
+        const targetTime = parseFloat(item.dataset.time);
+        player.seekTo(targetTime, true);
+        player.playVideo(); // 跳轉後自動播放
+
+        // 手動切換 active 狀態
+        chapterItems.forEach(c => c.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+  }
+
+  // 3. 當影片狀態改變（如播放中），定期檢查時間並更新章節亮燈
+  function onPlayerStateChange(event) {
+    // YT.PlayerState.PLAYING 狀態碼是 1 代表正在播放
+    if (event.data === 1) {
+      timeUpdateInterval = setInterval(updateChaptersActiveStatus, 500);
+    } else {
+      clearInterval(timeUpdateInterval);
+    }
+  }
+
+  // 4. 重現你原本的 timeupdate 邏輯：檢查當前時間並更新 active
+  function updateChaptersActiveStatus() {
+    if (!player || typeof player.getCurrentTime !== 'function') return;
+    
+    const cur = player.getCurrentTime(); // 取得 YouTube 當前秒數
+    const chapterItems = document.querySelectorAll('.chapter-item');
+
+    chapterItems.forEach((item, i) => {
+      const timeSec = parseFloat(item.dataset.time);
+      const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
+      
+      if (cur >= timeSec && cur < nextTimeSec) {
+        chapterItems.forEach(c => c.classList.remove('active'));
+        item.classList.add('active');
+      }
+    });
+  }
+</script>
 
     function initBlueprint() {
       const tabBtns = document.querySelectorAll('.bp-tab-btn');
