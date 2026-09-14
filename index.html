@@ -1,0 +1,2760 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>伍伴 Wuplet — 希伯崙 LiveABC 個人成果專題網站 ｜ 吳采嬅</title>
+  <meta name="description" content="希伯崙 LiveABC 個人成果專題：以 AI 任務推薦與五人同行機制，打造合作式個人英語學習模式。各自生活，有伴前進。">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* 全域設計系統 Design System Tokens */
+    :root {
+      --primary: #3B6B5E;
+      --primary-light: #5E8B7E;
+      --primary-pale: #EBF3F0;
+      --accent-warm: #E27D60;
+      --accent-peach: #F5A97F;
+      --accent-gold: #F4D06F;
+      --accent-amber: #E67E22;
+      --accent-blue: #70A1D7;
+      
+      --bg-cream: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-card-alt: #FDFBF7;
+      --bg-dark: #121820;
+      --bg-dark-card: #1A232E;
+      --bg-campfire: #161F28;
+      
+      --text-main: #2C3437;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+      --text-white: #F8FAFC;
+      
+      --border-light: #E8E4DE;
+      --border-subtle: #F0EDE8;
+      --shadow-sm: 0 2px 8px rgba(44, 52, 55, 0.04);
+      --shadow-md: 0 8px 24px rgba(44, 52, 55, 0.07);
+      --shadow-lg: 0 16px 40px rgba(44, 52, 55, 0.1);
+      
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 26px;
+      --radius-pill: 9999px;
+      
+      --font-sans: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      line-height: 1.68;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 滾動條 */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-cream); }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: var(--radius-pill); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+
+    /* 佈局容器 */
+    .container { width: 92%; max-width: 1240px; margin: 0 auto; }
+    .section { padding: 90px 0; position: relative; }
+    .section-dark { background-color: var(--bg-campfire); color: var(--text-white); }
+    .section-alt { background-color: #F4EFEB; }
+
+    /* 標題與標籤 */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--primary-pale);
+      color: var(--primary);
+      border-radius: var(--radius-pill);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .section-badge.dark {
+      background: rgba(94, 139, 126, 0.25);
+      color: var(--accent-gold);
+      border: 1px solid rgba(244, 208, 111, 0.3);
+    }
+    .section-title {
+      font-size: 2.35rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      line-height: 1.28;
+    }
+    .section-dark .section-title { color: var(--text-white); }
+    .section-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 48px;
+    }
+    .section-dark .section-subtitle { color: #A0AEC0; }
+
+    /* 導航欄 */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(250, 248, 245, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .nav-brand-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .nav-brand-name {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+    .nav-brand-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .nav-link:hover {
+      color: var(--primary);
+      background: var(--primary-pale);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-sound {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .btn-sound:hover {
+      background: var(--primary-pale);
+      border-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .btn-cta {
+      background: var(--primary);
+      color: #FFF;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 9px 20px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(59, 107, 94, 0.25);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .btn-cta:hover {
+      background: #2E554B;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(59, 107, 94, 0.35);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 70px 0 60px;
+      background: radial-gradient(circle at 85% 20%, rgba(244, 208, 111, 0.2) 0%, transparent 50%),
+                  radial-gradient(circle at 15% 70%, rgba(94, 139, 126, 0.18) 0%, transparent 45%),
+                  var(--bg-cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-pill);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+    .hero-meta-badge .liveabc-tag {
+      background: #D9381E;
+      color: #FFF;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 0.78rem;
+    }
+    .hero-title {
+      font-size: 3.25rem;
+      font-weight: 900;
+      line-height: 1.16;
+      color: var(--text-main);
+      margin-bottom: 16px;
+    }
+    .hero-title .highlight {
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    .hero-title .highlight::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 6px;
+      width: 100%;
+      height: 10px;
+      background: rgba(244, 208, 111, 0.45);
+      z-index: -1;
+      border-radius: 4px;
+    }
+    .hero-slogan {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--accent-warm);
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 30px;
+    }
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-pill);
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(232, 228, 222, 0.9);
+    }
+    .hero-stat-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-stat-num {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .hero-stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .hero-visual {
+      position: relative;
+    }
+    .hero-main-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+      position: relative;
+    }
+    .hero-img-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .hero-main-card:hover .hero-img-wrap img {
+      transform: scale(1.02);
+    }
+    .hero-floating-pill {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FFFFFF;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+      border: 1px solid var(--border-light);
+    }
+
+    /* 痛點分析卡片 */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .pain-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 32px 26px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .pain-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-warm);
+    }
+    .pain-icon-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      background: #FFF2EB;
+    }
+    .pain-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .pain-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+    .pain-text {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .insight-banner {
+      background: linear-gradient(135deg, #FFF9F3 0%, #FFF3EB 100%);
+      border: 1px solid #FCD4C2;
+      border-radius: var(--radius-md);
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .insight-math {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--accent-warm);
+      white-space: nowrap;
+      background: #FFFFFF;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-sm);
+    }
+    .insight-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #7C2D12;
+      line-height: 1.6;
+    }
+
+    /* 核心機制：Weekly Crew × 三次相遇 */
+    .cycle-timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .cycle-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .cycle-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    .cycle-card-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cycle-card.morning .cycle-card-header { background: #FFFBF0; }
+    .cycle-card.midday .cycle-card-header { background: #F0F7F4; }
+    .cycle-card.evening .cycle-card-header { background: #F2F6FB; }
+
+    .cycle-time-tag {
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+    }
+    .cycle-card.morning .cycle-time-tag { color: var(--accent-amber); }
+    .cycle-card.midday .cycle-time-tag { color: var(--primary); }
+    .cycle-card.evening .cycle-time-tag { color: var(--accent-blue); }
+
+    .cycle-name {
+      font-size: 1.26rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .cycle-card-body {
+      padding: 24px;
+      flex-grow: 1;
+    }
+    .cycle-action-step {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .cycle-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+    }
+    .cycle-pill {
+      background: var(--bg-cream);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      border: 1px solid var(--border-light);
+    }
+
+    /* 互動模擬體驗器 */
+    .simulator-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--primary-light);
+      box-shadow: var(--shadow-lg);
+      padding: 36px;
+      margin-top: 36px;
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .sim-nav-tabs {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-cream);
+      padding: 6px;
+      border-radius: var(--radius-pill);
+    }
+    .sim-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sim-tab-btn.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+    }
+    .sim-body {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .sim-control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sim-stage-desc {
+      font-size: 1rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .sim-choice-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sim-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .sim-pill-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sim-option-btn {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-light);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sim-option-btn:hover, .sim-option-btn.selected {
+      background: var(--primary-pale);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .sim-action-btn {
+      background: var(--primary);
+      color: #FFF;
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sim-action-btn:hover {
+      background: #2E554B;
+      transform: translateY(-2px);
+    }
+
+    /* 模擬手機螢幕 */
+    .sim-phone-frame {
+      background: #111827;
+      border-radius: 40px;
+      padding: 14px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      max-width: 330px;
+      margin: 0 auto;
+    }
+    .sim-phone-screen {
+      background: var(--bg-cream);
+      border-radius: 28px;
+      padding: 20px 16px;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .sim-phone-status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748B;
+      margin-bottom: 14px;
+    }
+    .sim-phone-crew-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #FFFFFF;
+      padding: 8px 10px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .sim-avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .sim-avatar-circle.active {
+      border: 2px solid var(--accent-gold);
+      box-shadow: 0 0 10px rgba(244, 208, 111, 0.7);
+    }
+    .sim-card-bubble {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      margin-bottom: 14px;
+    }
+    .sim-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .sim-card-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .sim-card-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #FFF;
+      border: none;
+      padding: 8px 0;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+    }
+    .sim-campfire-display {
+      background: radial-gradient(circle at center, #2C3E50 0%, #161F28 100%);
+      border-radius: 20px;
+      padding: 20px 14px;
+      color: #FFF;
+      text-align: center;
+      margin-top: auto;
+    }
+    .sim-campfire-flame {
+      font-size: 2.2rem;
+      display: inline-block;
+      animation: flicker 1.8s infinite ease-in-out;
+    }
+    @keyframes flicker {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(244, 208, 111, 0.8)); }
+      50% { transform: scale(1.15); filter: drop-shadow(0 0 16px rgba(230, 126, 34, 0.95)); }
+    }
+    .sim-progress-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      margin: 10px 0 6px;
+      overflow: hidden;
+    }
+    .sim-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #F4D06F, #E67E22);
+      width: 75%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+    .reactions-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .reaction-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .reaction-btn:hover {
+      transform: scale(1.2);
+      border-color: var(--primary);
+      background: var(--primary-pale);
+    }
+
+    /* AI ACTION COACH 模組 */
+    .coach-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .coach-funnel-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 36px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .funnel-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      margin-top: 24px;
+    }
+    .funnel-step {
+      display: flex;
+      gap: 18px;
+      position: relative;
+    }
+    .funnel-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--primary-pale);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .funnel-info h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .funnel-info p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .comparison-table-wrap {
+      overflow-x: auto;
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .comp-table th, .comp-table td {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.94rem;
+    }
+    .comp-table th {
+      background: var(--bg-cream);
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .badge-before {
+      background: #FEE2E2;
+      color: #DC2626;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .badge-after {
+      background: #DCFCE7;
+      color: #15803D;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    /* 投影片導覽展示區 */
+    .slides-viewer-wrap {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+    }
+    .slides-main-stage {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #111827;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-current-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .slide-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(18, 24, 32, 0.75);
+      color: #FFF;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      backdrop-filter: blur(8px);
+    }
+    .slide-nav-btn:hover { background: var(--primary); }
+    .slide-nav-btn.prev { left: 16px; }
+    .slide-nav-btn.next { right: 16px; }
+    .slide-counter-badge {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #FFF;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .slides-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px 0;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .slide-info-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .slide-info-timing {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-warm);
+    }
+    .slide-info-summary {
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .slide-info-script {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      background: var(--bg-cream);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      margin-bottom: 18px;
+    }
+    .slides-thumbs-tray {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 8px 4px 14px;
+    }
+    .slide-thumb {
+      width: 130px;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      opacity: 0.65;
+      transition: var(--transition);
+    }
+    .slide-thumb:hover { opacity: 1; }
+    .slide-thumb.active {
+      opacity: 1;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(59, 107, 94, 0.4);
+    }
+    .slide-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* 發表影片展示區 */
+    .video-showcase-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+    }
+    .video-player-wrap {
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 16 / 9;
+      position: relative;
+    }
+    .video-player-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-chapters-panel {
+      padding: 30px;
+      background: var(--bg-card-alt);
+      display: flex;
+      flex-direction: column;
+    }
+    .video-chapters-panel h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .video-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+    .chapter-item {
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .chapter-item:hover, .chapter-item.active {
+      background: var(--primary-pale);
+      border-color: var(--primary);
+    }
+    .chapter-time {
+      font-family: monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .chapter-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      flex-grow: 1;
+      margin-left: 12px;
+    }
+
+    /* 角色體系卡片 */
+    .mascots-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+    .mascot-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 24px 16px;
+      border: 1px solid var(--border-light);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .mascot-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-gold);
+    }
+    .mascot-avatar-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      background: var(--bg-cream);
+      border: 2px solid var(--border-light);
+    }
+    .mascot-card.sprouty .mascot-avatar-circle { background: #E8F5E9; border-color: #A5D6A7; }
+    .mascot-card.peachi .mascot-avatar-circle { background: #FCE4EC; border-color: #F48FB1; }
+    .mascot-card.sunny .mascot-avatar-circle { background: #FFF8E1; border-color: #FFE082; }
+    .mascot-card.leafy .mascot-avatar-circle { background: #E0F2F1; border-color: #80CBC4; }
+    .mascot-card.coco .mascot-avatar-circle { background: #EFEBE9; border-color: #BCAAA4; }
+
+    .mascot-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .mascot-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .mascot-quote {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* 六大架構藍圖檢索 */
+    .blueprint-nav {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 30px;
+    }
+    .bp-tab-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bp-tab-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .bp-tab-btn.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px rgba(59, 107, 94, 0.25);
+    }
+    .bp-content-pane {
+      display: none;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-md);
+    }
+    .bp-content-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bp-header-strip {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+    }
+    .bp-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .bp-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+    }
+
+    /* 講稿與評審問答 */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .qa-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 28px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .qa-q-badge {
+      background: #FEF3C7;
+      color: #B45309;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      align-self: flex-start;
+      margin-bottom: 12px;
+    }
+    .qa-question {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .qa-answer {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      background: var(--bg-cream);
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      flex-grow: 1;
+    }
+
+    /* 資源下載專區 */
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .dl-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1px solid var(--border-light);
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+    .dl-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .dl-icon { font-size: 2rem; margin-bottom: 14px; }
+    .dl-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .dl-type { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 14px; }
+    .dl-btn-link {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      background: #0E1318;
+      color: #94A3B8;
+      padding: 60px 0 30px;
+      border-top: 1px solid #1E293B;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand h3 {
+      color: #FFF;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 0.92rem; line-height: 1.7; }
+    .footer-col h4 {
+      color: #FFF;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer-links a {
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .footer-links a:hover { color: var(--accent-gold); }
+    .footer-bottom {
+      border-top: 1px solid #1E293B;
+      padding-top: 24px;
+      text-align: center;
+      font-size: 0.84rem;
+    }
+
+    /* 響應式佈局 */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { max-width: 580px; margin: 0 auto; }
+      .video-showcase-box { grid-template-columns: 1fr; }
+      .sim-body { grid-template-columns: 1fr; }
+      .coach-grid { grid-template-columns: 1fr; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .cycle-timeline { grid-template-columns: 1fr; }
+      .mascots-grid { grid-template-columns: repeat(3, 1fr); }
+      .qa-grid { grid-template-columns: 1fr; }
+      .download-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-title { font-size: 2.3rem; }
+      .hero-stats-row { grid-template-columns: repeat(2, 1fr); }
+      .mascots-grid { grid-template-columns: repeat(2, 1fr); }
+      .download-grid { grid-template-columns: 1fr; }
+      .bp-content-pane { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導航欄 (Sticky Navigation) -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-brand">
+        <img src="logo2.PNG" alt="伍伴 Wuplet Logo" class="nav-brand-img">
+        <div class="nav-brand-text">
+          <span class="nav-brand-name">伍伴 Wuplet</span>
+          <span class="nav-brand-tag">希伯崙 LiveABC 成果專題</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#painpoints" class="nav-link">痛點</a></li>
+        <li><a href="#mechanisms" class="nav-link">核心機制與互動</a></li>
+        <li><a href="#ai-coach" class="nav-link">AI行動教練</a></li>
+        <li><a href="#mascots" class="nav-link">角色與藍圖</a></li>
+        <li><a href="#qa" class="nav-link">Q&A</a></li>
+        <li><a href="#roadmap" class="nav-link">商業</a></li>
+        <li><a href="#downloads" class="nav-link">下載</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="btnToggleCampfire" class="btn-sound" title="點擊切換營火微光白噪音">🔥 營火微聲</button>
+        <a href="#slides" class="btn-cta">觀看發表 ➔</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO 首頁區 (Hero Section) -->
+  <section id="hero" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-meta-badge">
+          <span class="liveabc-tag">LiveABC</span>
+          <span>希伯崙成果專題 ｜ AI英語互動學習設計 </span>
+        </div>
+        <h1 class="hero-title">
+          伍伴 <span class="highlight">Wuplet</span>
+        </h1>
+        <div class="hero-slogan">
+          「五人成伍，有人作伴。」
+        </div>
+        <p class="hero-desc">
+          以 <strong>AI 任務推薦</strong> 與 <strong>每週五人同行機制</strong>，打造 LiveABC 合作式個人英語學習模式（Cooperative Personal To-Do）。
+          透過短暫相聚、柔性承接與共同累積，徹底打破自主學習「打開教材之前」的拖延阻力。
+        </p>
+        <div class="hero-cta-group">
+          <a href="#simulator" class="btn-cta">🌱 體驗一日三次相遇</a>
+          <a href="#video" class="btn-secondary">🎬 播放成果發表影片</a>
+          <a href="#slides" class="btn-secondary">📊 投影片高畫質導覽</a>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat-card">
+            <span class="hero-stat-num">5 人</span>
+            <span class="hero-stat-label">固定同行小隊 Weekly Crew</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="hero-stat-num">3 次</span>
+            <span class="hero-stat-label">一日短暫碰面 朝午晚</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="hero-stat-num">80%</span>
+            <span class="hero-stat-label">AI 壓縮教材決策時長</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="hero-stat-num">0 壓力</span>
+            <span class="hero-stat-label">去競爭化・合法休整日</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-main-card">
+          <div class="hero-img-wrap">
+            <img src="ChatGPT 3.png" alt="伍伴營地全景插畫">
+          </div>
+          <div class="hero-floating-pill">
+            <span>✨</span>
+            <span>報告人：吳采嬅 ｜ 5 分鐘成果發表</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 企業實務痛點 (Corporate Pain Points) -->
+  <section id="painpoints" class="section">
+    <div class="container">
+      <div class="section-badge">01 ｜ 企業實務痛點</div>
+      <h2 class="section-title">教材很完整，為什麼學員還是沒有開始？</h2>
+      <p class="section-subtitle">
+        在希伯崙 LiveABC 數位學習實務中，自主學習者最大的流失往往不是教材「教得好不好」，而是發生在「打開教材之前」。
+      </p>
+
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon-circle">🧭</div>
+          <div class="pain-tag">Pain Point 1</div>
+          <h3 class="pain-title">Choice Overload（選擇過載）</h3>
+          <p class="pain-text">
+            面對平台內龐大的教材庫、AI 口說單元與雜誌內容，疲累或拖延中的學員在開始前必須做過多決策，產生嚴重的決策疲勞，最終退出手機。
+          </p>
+        </div>
+
+        <div class="pain-card">
+          <div class="pain-icon-circle">🛋️</div>
+          <div class="pain-tag">Pain Point 2</div>
+          <h3 class="pain-title">缺少 Co-presence（在場感）</h3>
+          <p class="pain-text">
+            獨自一人時，單靠脆弱的自律很難跨過行動門檻；明知道該學，但身旁缺乏同在感，往往在沙發上滑手機兩個小時就過去了。
+          </p>
+        </div>
+
+        <div class="pain-card">
+          <div class="pain-icon-circle">📊</div>
+          <div class="pain-tag">Pain Point 3</div>
+          <h3 class="pain-title">打卡焦慮與排行榜壓力</h3>
+          <p class="pain-text">
+            傳統自習 App 依賴大池排行榜、連續天數（Streak）懲罰或工時比拼，一旦加班中斷就產生挫敗感，甚至引發破罐破摔的心態。
+          </p>
+        </div>
+      </div>
+
+      <div class="insight-banner">
+        <div class="insight-math">Resource Richness ≠ Action Clarity</div>
+        <div class="insight-text">
+          <strong>專案關鍵假設</strong>：學習平台真正要突破的瓶頸，不是再去堆疊更多教材，而是如何降低「從想做、到開始做」之間的摩擦力。
+          固定的小型同行伙伴（5人）＋ AI 縮小為具體下一步，比「提供更多選擇」更能幫助學員自然啟動！
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 核心機制 (Core Mechanisms) -->
+  <section id="mechanisms" class="section section-alt">
+    <div class="container">
+      <div class="section-badge">02 ｜ 專案方向與核心機制</div>
+      <h2 class="section-title">五個陌生人，各做自己的事，卻一起往前</h2>
+      <p class="section-subtitle">
+        伍伴 Wuplet 定位為 <strong>Cooperative Personal To-Do（合作式個人待辦）</strong>。
+        核心哲學是：<strong>「App 不能替你生活，它只能陪你出去生活。」</strong>
+      </p>
+
+      <div class="cycle-timeline">
+        <div class="cycle-card morning">
+          <div class="cycle-card-header">
+            <span class="cycle-name">☀️ 早安啟航 Morning Set Out</span>
+            <span class="cycle-time-tag">07:30 - 09:30</span>
+          </div>
+          <div class="cycle-card-body">
+            <p class="cycle-action-step">
+              晨間打開 App 看見 5 位隊友，自訂或接受 AI 推薦的 <strong>1 個 8 分鐘 Tiny Quest</strong>。選定後系統主動引導退出手機，投入真實生活行動。
+            </p>
+            <ul class="cycle-tag-list">
+              <li class="cycle-pill">一次只做一個下一步</li>
+              <li class="cycle-pill">允許 Private Quest 隱私任務</li>
+              <li class="cycle-pill">即刻離線行動</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cycle-card midday">
+          <div class="cycle-card-header">
+            <span class="cycle-name">🌤️ 午間檢核 Midday Check-In</span>
+            <span class="cycle-time-tag">12:00 - 13:30</span>
+          </div>
+          <div class="cycle-card-body">
+            <p class="cycle-action-step">
+              如果上午工作太忙進度落後，提供 <strong>一鍵【Make it smaller 縮小為 5 分鐘微步】</strong>，甚至宣告 <strong>【Rest Day 合法休息】</strong>，徹底消滅罪惡感。
+            </p>
+            <ul class="cycle-tag-list">
+              <li class="cycle-pill">柔性責任 Soft Accountability</li>
+              <li class="cycle-pill">休息是一等公民</li>
+              <li class="cycle-pill">無任何負面警告</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cycle-card evening">
+          <div class="cycle-card-header">
+            <span class="cycle-name">🌙 傍晚歸隊 Evening Come Back</span>
+            <span class="cycle-time-tag">20:00 - 22:30</span>
+          </div>
+          <div class="cycle-card-body">
+            <p class="cycle-action-step">
+              下班歸隊，以信任制（Honor System）單擊回報 <strong>Done / Did a little / Not today</strong>。個人步數匯聚成營火微光，照亮團隊共同的花園。
+            </p>
+            <ul class="cycle-tag-list">
+              <li class="cycle-pill">信任制免上傳證明</li>
+              <li class="cycle-pill">Shared Progress 共同累積</li>
+              <li class="cycle-pill">可選 2分鐘 AI 反思</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 互動模擬體驗 (Interactive Simulator) -->
+  <section id="simulator" class="section">
+    <div class="container">
+      <div class="section-badge">03 ｜ 即時互動模擬</div>
+      <h2 class="section-title">親身體驗：伍伴 Wuplet 一日三次相遇</h2>
+      <p class="section-subtitle">
+        點擊體驗學習者從早晨選定 AI 任務、午間彈性縮小、到晚間點亮營火微光的完整心理動線。
+      </p>
+
+      <div class="simulator-box">
+        <div class="sim-header">
+          <div>
+            <h3 style="font-size: 1.35rem; font-weight: 800;">Wuplet Daily Experience Simulator</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">選擇時段並進行互動，右側手機即時反饋</p>
+          </div>
+          <div class="sim-nav-tabs">
+            <button class="sim-tab-btn active" data-stage="morning">☀️ 晨間啟航</button>
+            <button class="sim-tab-btn" data-stage="midday">🌤️ 午間關懷</button>
+            <button class="sim-tab-btn" data-stage="evening">🌙 晚間營火</button>
+          </div>
+        </div>
+
+        <div class="sim-body">
+          <!-- 左側控制項 -->
+          <div class="sim-control-panel">
+            <!-- 晨間面板 -->
+            <div id="simMorningControls">
+              <p class="sim-stage-desc">
+                學員早晨醒來，只需輸入或選擇今天精神狀態與可用時間，AI Action Coach 會立刻為你篩選出 1 個做得到的 LiveABC 英語任務：
+              </p>
+              <br>
+              <div class="sim-choice-group">
+                <span class="sim-label">1. 今日精力狀態 (Energy Level)</span>
+                <div class="sim-pill-options">
+                  <button class="sim-option-btn opt-energy" data-val="low">低電量 (想輕鬆點)</button>
+                  <button class="sim-option-btn opt-energy selected" data-val="normal">一般狀態 (精神尚可)</button>
+                  <button class="sim-option-btn opt-energy" data-val="focused">高專注 (想挑戰實戰)</button>
+                </div>
+              </div>
+              <br>
+              <div class="sim-choice-group">
+                <span class="sim-label">2. 可用零碎時間 (Time Window)</span>
+                <div class="sim-pill-options">
+                  <button class="sim-option-btn opt-time" data-val="5m">5 分鐘</button>
+                  <button class="sim-option-btn opt-time selected" data-val="8m">8 分鐘 (推薦)</button>
+                  <button class="sim-option-btn opt-time" data-val="15m">15 分鐘</button>
+                </div>
+              </div>
+              <br>
+              <button id="btnSimStart" class="sim-action-btn">
+                <span>🚀 確認任務・即刻出發去生活 ➔</span>
+              </button>
+            </div>
+
+            <!-- 午間面板 -->
+            <div id="simMiddayControls" style="display: none;">
+              <p class="sim-stage-desc">
+                中午用餐時間，打開手機看一眼同行隊友進度。若上午工作繁忙尚未開始，隨時可以調整：
+              </p>
+              <br>
+              <div class="sim-choice-group">
+                <span class="sim-label">選擇午間彈性動作 (Midday Action)</span>
+                <div class="sim-pill-options">
+                  <button class="sim-option-btn opt-midday selected" data-action="keep">維持原任務繼續走</button>
+                  <button class="sim-option-btn opt-midday" data-action="shrink">✨ 一鍵縮小為 5 分鐘微步</button>
+                  <button class="sim-option-btn opt-midday" data-action="rest">🛋️ 今日宣告休整 (Rest Day)</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 晚間面板 -->
+            <div id="simEveningControls" style="display: none;">
+              <p class="sim-stage-desc">
+                下班回到營火旁，以誠實信用制回報今天的一點點努力。每一步都會為小隊帶回微光！
+              </p>
+              <br>
+              <div class="sim-choice-group">
+                <span class="sim-label">選擇今日回報狀態 (Result)</span>
+                <div class="sim-pill-options">
+                  <button class="sim-option-btn opt-evening" data-result="done">✅ Done (完成任務)</button>
+                  <button class="sim-option-btn opt-evening" data-result="little">🌱 Did a little (做了一點)</button>
+                  <button class="sim-option-btn opt-evening" data-result="not_today">🌙 Not today (今天未做)</button>
+                </div>
+              </div>
+              <br>
+              <div id="simReflectionResult" style="display: none; padding: 14px 18px; background: #FFF8E1; border-radius: 12px; font-size: 0.92rem; color: #78350F; border: 1px solid #FDE68A;">
+                <!-- AI 微反思動態文字 -->
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-light); padding-top: 14px;">
+              <span class="sim-label">向隊友發送低社交微反應 (Low-Social Reactions)：</span>
+              <div class="reactions-bar">
+                <button class="reaction-btn" title="發送嫩芽">🌱</button>
+                <button class="reaction-btn" title="發送鼓掌">👏</button>
+                <button class="reaction-btn" title="發送微光">✨</button>
+                <button class="reaction-btn" title="發送讚">👍</button>
+                <button class="reaction-btn" title="發送愛心">❤️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右側模擬手機畫面 -->
+          <div class="sim-phone-frame">
+            <div class="sim-phone-screen">
+              <div class="sim-phone-status-bar">
+                <span id="simPhoneStageTag">晨間啟航 08:30</span>
+                <span>🔋 85%</span>
+              </div>
+              
+              <div class="sim-phone-crew-bar">
+                <div class="sim-avatar-circle active" title="Luna">🌱</div>
+                <div class="sim-avatar-circle" title="Kai">🎧</div>
+                <div class="sim-avatar-circle" title="Mei">🌸</div>
+                <div class="sim-avatar-circle" title="Ben">✏️</div>
+                <div class="sim-avatar-circle" title="Sora">🏃</div>
+              </div>
+
+              <div class="sim-card-bubble">
+                <div class="sim-card-title">🤖 AI Action Coach 推薦任務</div>
+                <div id="simCurrentTask" class="sim-card-desc">
+                  【AI 口說】生活旅遊英語 — 咖啡館點餐實戰 (8分鐘)
+                </div>
+                <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700;">
+                  直達 LiveABC 教材 ｜ 預估時長：8 分鐘
+                </div>
+              </div>
+
+              <div class="sim-campfire-display">
+                <div class="sim-campfire-flame">🔥</div>
+                <div style="font-size: 0.82rem; font-weight: 800; margin-top: 4px;">伍伴溫馨營地</div>
+                <div class="sim-progress-bar-wrap">
+                  <div class="sim-progress-fill"></div>
+                </div>
+                <div style="font-size: 0.75rem; color: #CBD5E1;">
+                  小隊今日共同進度：<span id="simProgressText">65 / 80 min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 AI ACTION COACH 模組效益 (AI Coach Section) -->
+  <section id="ai-coach" class="section section-alt">
+    <div class="container">
+      <div class="section-badge">04 ｜ AI 導入效益</div>
+      <h2 class="section-title">讓 AI 減少選擇，讓真人提供陪伴</h2>
+      <p class="section-subtitle">
+        AI 在伍伴中不是陪聊主角，而是擔任減輕決策負擔的<strong>「助推副手（Nudge Assistant）」</strong>，將原本模糊龐大的意圖，轉化為「現在做得到」的一小步。
+      </p>
+
+      <div class="coach-grid">
+        <div class="coach-funnel-card">
+          <h3 style="font-size: 1.3rem; font-weight: 800;">AI Action Coach 三步漏斗機制</h3>
+          <p style="font-size: 0.92rem; color: var(--text-muted);">
+            AI 介入「開始之前」，徹底縮短 80% 挑選與猶豫時長
+          </p>
+
+          <div class="funnel-steps">
+            <div class="funnel-step">
+              <div class="funnel-icon">1</div>
+              <div class="funnel-info">
+                <h4>Understand（理解當下情境與阻力）</h4>
+                <p>讀取學員今天的可用時間（如8分鐘）、精力等級（低電量/專注）與個人口說目標，不強加過重功課。</p>
+              </div>
+            </div>
+
+            <div class="funnel-step">
+              <div class="funnel-icon">2</div>
+              <div class="funnel-info">
+                <h4>Shrink（任務微步化拆解）</h4>
+                <p>將原本「我想學好英文」等過大目標，縮小成一個現在立刻能完成的 Tiny Quest，消滅拖延藉口。</p>
+              </div>
+            </div>
+
+            <div class="funnel-step">
+              <div class="funnel-icon">3</div>
+              <div class="funnel-info">
+                <h4>Recommend（單一推薦與教材直達）</h4>
+                <p>嚴守「推薦優先、選擇其次」原則，直接輸出 1 個最適合單元，一鍵透過 Deep Link 直通 LiveABC 口說評測。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="coach-funnel-card">
+          <h3 style="font-size: 1.3rem; font-weight: 800;">嚴密 AI 護欄規範（Guardrails）</h3>
+          <p style="font-size: 0.92rem; color: var(--text-muted);">
+            恪守產品邊界，避免虛擬成癮與技術濫用
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
+            <li style="display: flex; gap: 12px;">
+              <span style="color: #DC2626; font-weight: 800;">❌</span>
+              <div style="font-size: 0.92rem;">
+                <strong>嚴禁心理診斷</strong>：不使用抑鬱、焦慮等醫學術語，僅依學員自主標記的精力狀態（Low/Normal/Focused）進行建議。
+              </div>
+            </li>
+            <li style="display: flex; gap: 12px;">
+              <span style="color: #DC2626; font-weight: 800;">❌</span>
+              <div style="font-size: 0.92rem;">
+                <strong>嚴禁監考打分</strong>：不假裝能用 AI 審查使用者的心靈，外部自修任務完全採信任制（Honor System）。
+              </div>
+            </li>
+            <li style="display: flex; gap: 12px;">
+              <span style="color: #DC2626; font-weight: 800;">❌</span>
+              <div style="font-size: 0.92rem;">
+                <strong>嚴禁長時間閒聊</strong>：晚間微反思嚴格限制在 2 輪對話、2 分鐘內結束，主動叮嚀「好好休息，明天見」，把人推回真實世界。
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="comparison-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>學習場景痛點</th>
+              <th>傳統自修模式 <span class="badge-before">AI 導入前</span></th>
+              <th>伍伴 Wuplet 模式 <span class="badge-after">AI 導入後</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>學習目標定義</strong></td>
+              <td>「我想學好英文」，目標過於抽象宏大，難以著手</td>
+              <td>理解時間、能量與偏好，精確轉化為 8 分鐘具體微任務</td>
+            </tr>
+            <tr>
+              <td><strong>面對海量教材</strong></td>
+              <td>在目錄翻找 10 分鐘，挑到疲倦後直接放棄</td>
+              <td>漏斗精準推薦單一單元，一鍵 Deep Link 直達學習畫面</td>
+            </tr>
+            <tr>
+              <td><strong>當日精力不濟</strong></td>
+              <td>因為加班或疲憊無法完成，中斷 Streak 產生愧疚感</td>
+              <td>一鍵「Make it smaller」縮為 5 分鐘，或合法休息日零懲罰</td>
+            </tr>
+            <tr>
+              <td><strong>學習反思與累積</strong></td>
+              <td>打完勾即結束，無法覺察自己的微小進步模式</td>
+              <td>晚間 2 分鐘 AI 啟發式微反思，週日自動匯整個人成長週記</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 VERSION 2 發表簡報展示區 (Slides Viewer) -->
+  <section id="slides" class="section">
+    <div class="container">
+      <div class="section-badge">05 ｜ 發表簡報展示區</div>
+      <h2 class="section-title">高畫質簡報導覽與講稿對照</h2>
+      <p class="section-subtitle">
+        可使用鍵盤左右鍵（← →）或點擊下方縮圖快速切換。
+      </p>
+
+      <div class="slides-viewer-wrap">
+        <div class="slides-main-stage">
+          <img id="slideCurrentImg" src="pdf_slides/v2_slide_1.png" alt="當前簡報投影片" class="slide-current-img">
+          <button id="btnSlidePrev" class="slide-nav-btn prev" title="上一頁">‹</button>
+          <button id="btnSlideNext" class="slide-nav-btn next" title="下一頁">›</button>
+          <div id="slideCounter" class="slide-counter-badge">1 / 8</div>
+        </div>
+
+        <div class="slides-meta-bar">
+          <div>
+            <h3 id="slideInfoTitle" class="slide-info-title">Slide 1：封面 — 伍伴 Wuplet</h3>
+            <div id="slideInfoSummary" class="slide-info-summary">一個人學，也不必一個人開始 / Learn on your own. Never start alone.</div>
+          </div>
+        </div>
+
+        <div id="slideInfoScript" class="slide-info-script">
+          各位評審老師好，我是吳采嬅。今天我的成果發表專題題目是《伍伴 Wuplet：以 AI 任務推薦與五人同行機制，打造 LiveABC 合作式個人英語學習模式》。先請大家回想：手機裡明明下載了最優質的教材，也知道有口說功能；但每天下班回到家坐在沙發上滑手機，想學英文的念頭卻遲遲沒有開始？
+        </div>
+
+        <div id="slideThumbsTray" class="slides-thumbs-tray">
+          <!-- JS 動態填入縮圖 -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 專案發表影音展示區 (Video Showcase) -->
+  <section id="video" class="section section-dark">
+    <div class="container">
+      <div class="section-badge dark">06 ｜ 專案成果影音</div>
+      <h2 class="section-title"> 口頭發表影音觀賞</h2>
+      <p class="section-subtitle">
+        語音介紹專題精神，建議調整至1.5倍速，點擊右側章節可快速跳轉至指定段落。
+      </p>
+
+      <div class="video-showcase-box">
+        <div class="video-player-wrap">
+          <video id="mainVideo" controls preload="metadata" poster="pdf_slides/v2_slide_1.png">
+            <source src="Wuplet_Presentation.mp4" type="video/mp4">
+            <source src="希伯崙_伍伴AI Action Coach_吳采嬅/希伯崙_伍伴AI Action Coach_吳采嬅.mp4" type="video/mp4">
+            您的瀏覽器不支援 HTML5 影片播放。
+          </video>
+        </div>
+
+        <div class="video-chapters-panel">
+          <h3>簡報時間軸章節導覽</h3>
+          <p class="video-sub">簡報時間軸章節導覽</p>
+          <ul class="chapter-list">
+            <li class="chapter-item active" data-time="0">
+              <span class="chapter-time">00:00</span>
+              <span class="chapter-title">開場破冰：身分介紹與痛點引言</span>
+            </li>
+            <li class="chapter-item" data-time="41">
+              <span class="chapter-time">00:41</span>
+              <span class="chapter-title">企業實務痛點：有資源不等於有行動</span>
+            </li>
+            <li class="chapter-item" data-time="78">
+              <span class="chapter-time">01:18</span>
+              <span class="chapter-title">專案定位：各自生活，有伴前進</span>
+            </li>
+            <li class="chapter-item" data-time="121">
+              <span class="chapter-time">02:01</span>
+              <span class="chapter-title">實作機制：Weekly Crew × 三次相遇</span>
+            </li>
+            <li class="chapter-item" data-time="385">
+              <span class="chapter-time">06:25</span>
+              <span class="chapter-title">AI 工具展示：AI Mission Picker 漏斗</span>
+            </li>
+            <li class="chapter-item" data-time="441">
+              <span class="chapter-time">07:21</span>
+              <span class="chapter-title">AI 導入效益：縮短 80% 決策時長</span>
+            </li>
+            <li class="chapter-item" data-time="471">
+              <span class="chapter-time">07:51</span>
+              <span class="chapter-title">未來擴散性：從 LiveABC 到全場景生態</span>
+            </li>
+            <li class="chapter-item" data-time="547">
+              <span class="chapter-time">09:07</span>
+              <span class="chapter-title">個人成果結語：做溫柔的減法</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 角色體系與品牌世界觀 (Wuplet Mascot Characters) -->
+  <section id="mascots" class="section">
+    <div class="container">
+      <div class="section-badge">07 ｜ 角色體系與品牌世界觀</div>
+      <h2 class="section-title">Wuplet 五大萌芽同行者</h2>
+      <p class="section-subtitle">
+        以溫暖童趣角色作為學習者在小隊中的代言人，保護真人隱私邊界的同時，賦予低負擔的同行在場感。
+      </p>
+
+      <div class="mascots-grid">
+        <div class="mascot-card sprouty">
+          <div class="mascot-avatar-circle">🌱</div>
+          <h3 class="mascot-name">Sprouty</h3>
+          <span class="mascot-tag">平靜溫和 Calm & Gentle</span>
+          <p class="mascot-quote">綠葉小芽，背著專屬小行囊。象徵穩健踏實的起步，陪伴學員走過第一哩路。</p>
+        </div>
+
+        <div class="mascot-card peachi">
+          <div class="mascot-avatar-circle">🍑</div>
+          <h3 class="mascot-name">Peachi</h3>
+          <span class="mascot-tag">熱情明朗 Cheerful & Bright</span>
+          <p class="mascot-quote">粉桃雙芽，總是掛著元氣笑容。手捧愛心為隊友喝采，傳遞正向社群支持。</p>
+        </div>
+
+        <div class="mascot-card sunny">
+          <div class="mascot-avatar-circle">⭐</div>
+          <h3 class="mascot-name">Sunny</h3>
+          <span class="mascot-tag">溫暖歡樂 Warm & Joyful</span>
+          <p class="mascot-quote">金黃小冠，手持微光金種子。在營火邊照亮黑夜，代表希望與共同前進的微光。</p>
+        </div>
+
+        <div class="mascot-card leafy">
+          <div class="mascot-avatar-circle">🍃</div>
+          <h3 class="mascot-name">Leafy</h3>
+          <span class="mascot-tag">文靜深思 Quiet & Thoughtful</span>
+          <p class="mascot-quote">墨綠大葉，雙手捧著大葉子靜靜閱讀。熱愛沉浸專注，是深度思考學員的好夥伴。</p>
+        </div>
+
+        <div class="mascot-card coco">
+          <div class="mascot-avatar-circle">💡</div>
+          <h3 class="mascot-name">Coco</h3>
+          <span class="mascot-tag">好奇創造 Curious & Creative</span>
+          <p class="mascot-quote">咖啡暖萌，手拿筆記本與發光燈泡。好奇探索真實世界，記錄每一步微小的靈感。</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 10px;">
+        <img src="ChatGPT 2.png" alt="Wuplet 5大角色立繪全集" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-light);">
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 六大架構開發藍圖 (Six-Architecture Blueprint) -->
+  <section id="blueprint" class="section section-alt">
+    <div class="container">
+      <div class="section-badge">08 ｜ 開發藍圖沉浸檢索</div>
+      <h2 class="section-title">《伍伴 Wuplet》六大架構開發藍圖</h2>
+      <p class="section-subtitle">
+        嚴格依據《開發藍圖六大架構》規範收錄，點擊分頁檢索各架構之詳細交付定義與規格。
+      </p>
+
+      <div class="blueprint-nav">
+        <button class="bp-tab-btn active" data-target="pane-bp1">📄 第一架構：產品定義書</button>
+        <button class="bp-tab-btn" data-target="pane-bp2">👤 第二架構：User Story</button>
+        <button class="bp-tab-btn" data-target="pane-bp3">⚙️ 第三架構：功能規格表</button>
+        <button class="bp-tab-btn" data-target="pane-bp4">🏗️ 第四架構：架構與資料模型</button>
+        <button class="bp-tab-btn" data-target="pane-bp5">🔄 第五架構：狀態流與畫面</button>
+        <button class="bp-tab-btn" data-target="pane-bp6">📦 第六架構：素材清單與範圍</button>
+      </div>
+
+      <!-- 第一架構 -->
+      <div id="pane-bp1" class="bp-content-pane active">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第一架構：產品定義書（Product Definition）</h3>
+          <p class="bp-desc">一句話講清楚為誰、解決什麼問題。含核心命題、品牌主張、非目標界定與九大原則。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+          <div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">📌 一句話核心定義</h4>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; background: var(--bg-cream); padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+              伍伴 Wuplet 是一個以「每週固定五人同行」為核心的 Cooperative Personal To-Do 產品：每個人做自己的事，個人完成的小任務轉化為小隊的共同進度；App 只在一天中三個短暫時刻提供輕量陪伴，其餘時間鼓勵使用者離開手機、投入真實生活行動。
+            </p>
+            <br>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">💡 五大品牌價值主張</h4>
+            <ul style="font-size: 0.92rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; list-style: none;">
+              <li>🌱 <strong>各自生活，有伴前進。</strong>（中文核心口號）</li>
+              <li>🌱 <strong>Learn on your own. Never start alone.</strong>（學習版核心訴求）</li>
+              <li>🌱 <strong>Your effort becomes our progress.</strong>（個人努力即團隊進度）</li>
+              <li>🌱 <strong>Meet briefly. Live fully. Come back together.</strong>（三次相遇哲學）</li>
+              <li>🌱 <strong>App 不能替你生活，它只能陪你出去生活。</strong>（產品設計底線）</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--accent-warm); margin-bottom: 10px;">🚫 邊界禁區：產品「不是」什麼</h4>
+            <ul style="font-size: 0.92rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 10px; list-style: none;">
+              <li>❌ <strong>不是工作專案管理工具</strong>：非 Trello/Asana，不做分派工時統計。</li>
+              <li>❌ <strong>不是高社交聊天室</strong>：無公開 Feed 動態牆，無陌生人私訊（No DM）。</li>
+              <li>❌ <strong>不是高壓打卡競技場</strong>：拒絕排行榜競爭，拒絕連續天數中斷羞辱。</li>
+              <li>❌ <strong>不是成癮留客遊戲</strong>：任務發生在現實世界，不靠刷時長玩遊戲。</li>
+              <li>❌ <strong>不是讓 AI 當陪伴主角</strong>：真人才是陪伴主體，AI 僅為助推副手。</li>
+              <li>❌ <strong>不是監考認證系統</strong>：外部任務採信用制（Honor System）。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第二架構 -->
+      <div id="pane-bp2" class="bp-content-pane">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第二架構：User Story（使用者故事）</h3>
+          <p class="bp-desc">主要使用者想做什麼、為了什麼價值。含 4 大 Persona 與核心驗收準則。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+          <div style="background: var(--bg-cream); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; color: var(--primary);">👤 Persona 1：Emily (25歲，外商行政助理)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">想利用下班練英語口說，但容易坐在沙發上滑手機拖延。需要「有人陪」的在場感，順利啟動 10 分鐘練習。</p>
+          </div>
+          <div style="background: var(--bg-cream); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; color: var(--primary);">👤 Persona 2：David (33歲，軟體工程師)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">準備轉職作品集與外語閱讀，排斥被熟人評頭論足。需要 Private Quest 隱私保護與極低干擾同行。</p>
+          </div>
+          <div style="background: var(--bg-cream); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; color: var(--primary);">👤 Persona 3：Zoe (42歲，專案執行)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">工作壓力大常加班，曾因中斷打卡 Streak 感到挫敗。需要「一鍵縮小至 5 分鐘」或「合法休整日」的去罪惡感工具。</p>
+          </div>
+          <div style="background: var(--bg-cream); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; color: var(--primary);">👤 Persona 4：Kevin (18歲，大學生學員)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">購買了 LiveABC 數位教材，但面對琳瑯滿目的單元有嚴重的選擇困難。需要 AI 每天直接幫忙挑好 1 個 8 分鐘單元一鍵出發。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第三架構 -->
+      <div id="pane-bp3" class="bp-content-pane">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第三架構：功能規格表（Functional Matrix）</h3>
+          <p class="bp-desc">功能清單、使用者可以…、規則、優先度。含 LiveABC 附加版 vs 獨立 App 版對照。</p>
+        </div>
+        <div class="comparison-table-wrap">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>模組</th>
+                <th>功能項目</th>
+                <th>使用者可以…</th>
+                <th>邊界規則與優先度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>M1</strong></td>
+                <td>新成員引導設定</td>
+                <td>設定暱稱、挑選角色、作息時段與隱私預設</td>
+                <td>不填真實姓名，P0 必做</td>
+              </tr>
+              <tr>
+                <td><strong>M2</strong></td>
+                <td>Weekly Crew 五人小隊</td>
+                <td>每週一自動撮合固定 5 人同行小隊</td>
+                <td>維持一週不洗牌，P0 必做</td>
+              </tr>
+              <tr>
+                <td><strong>M3</strong></td>
+                <td>Morning 晨間出發</td>
+                <td>領取或認領 1 個 Tiny Quest，確認後離線行動</td>
+                <td>每日嚴格限制 1 件，P0 必做</td>
+              </tr>
+              <tr>
+                <td><strong>M4</strong></td>
+                <td>Midday 午間檢核</td>
+                <td>一鍵縮小為 5 分鐘微步或選擇合法休整 Rest</td>
+                <td>無負面警示，P0 必做</td>
+              </tr>
+              <tr>
+                <td><strong>M5</strong></td>
+                <td>Evening 傍晚歸隊</td>
+                <td>信任制回報 Done / Did a little / Not today</td>
+                <td>微步均獲小隊微光，P0 必做</td>
+              </tr>
+              <tr>
+                <td><strong>M10</strong></td>
+                <td>AI Mission Picker</td>
+                <td>依時間、能量、目標精準推薦 1 個英語單元</td>
+                <td>掛載 Deep Link 教材，P1 延伸</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 第四架構 -->
+      <div id="pane-bp4" class="bp-content-pane">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第四架構：三層架構拓撲與資料模型（Architecture & Data Model）</h3>
+          <p class="bp-desc">Presentation、Business & Presence、Support & Data 三層拓撲與 10 大核心實體字典。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div>
+            <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 12px;">三層式系統拓撲結構</h4>
+            <div style="background: var(--bg-cream); padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-size: 0.9rem; line-height: 1.8;">
+              <strong>1. Presentation Tier（使用者互動層）</strong>：晨午晚相遇視窗、營地共同進度畫卷、5 大微反應浮層。<br>
+              <strong>2. Business & Presence Tier（業務邏輯層）</strong>：Weekly Crew 配對引擎、Rendezvous 排程器、Quest 狀態機、隱私過濾網關。<br>
+              <strong>3. Support & Data Tier（支援資料層）</strong>：AI 推薦與微反思 LLM、LiveABC 現有教材 API、PostgreSQL / Redis。
+            </div>
+          </div>
+          <div>
+            <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 12px;">10 大核心實體結構（Data Dictionary）</h4>
+            <ul style="font-size: 0.9rem; color: var(--text-muted); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; list-style: none;">
+              <li>🔹 <strong>User</strong>：使用者全域檔</li>
+              <li>🔹 <strong>Crew</strong>：每週五人小隊</li>
+              <li>🔹 <strong>CrewMember</strong>：成員關聯與席次</li>
+              <li>🔹 <strong>Quest</strong>：每日微任務</li>
+              <li>🔹 <strong>QuestResult</strong>：三態回報結果</li>
+              <li>🔹 <strong>DailyState</strong>：精力與午間狀態</li>
+              <li>🔹 <strong>Contribution</strong>：小隊微步貢獻</li>
+              <li>🔹 <strong>Reaction</strong>：5 款微表情互動</li>
+              <li>🔹 <strong>WorldState</strong>：營火繁盛等級</li>
+              <li>🔹 <strong>WeeklyJournal</strong>：個人成長週記</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第五架構 -->
+      <div id="pane-bp5" class="bp-content-pane">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第五架構：狀態流與主要畫面示意（State Flow & UI Mockups）</h3>
+          <p class="bp-desc">一週生命週期狀態機、每日三次相遇循環、以及 5 大核心 UI 設計資產。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+          <div style="background: var(--bg-cream); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; font-size: 1rem; margin-bottom: 8px;">📱 畫面 1：早安啟航 UI</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">展示 5 人同盟列、AI 推薦卡片、一鍵啟用 Private Quest，確認後系統引導關機行動。</p>
+          </div>
+          <div style="background: var(--bg-cream); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; font-size: 1rem; margin-bottom: 8px;">📱 畫面 2：溫馨營火營地</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">5 隻生物環坐營火，本日團隊進度條（65/80 min），周遭花草隨總步數繁盛。</p>
+          </div>
+          <div style="background: var(--bg-cream); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h4 style="font-weight: 800; font-size: 1rem; margin-bottom: 8px;">📱 畫面 3：成果回報與微反思</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">三態單擊選項（Done / Did a little / Not today），解鎖 2 分鐘 AI 結構化正向激勵卡。</p>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <img src="Gemini 1.jpg" alt="Wuplet UI 介面與資產總覽" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+        </div>
+      </div>
+
+      <!-- 第六架構 -->
+      <div id="pane-bp6" class="bp-content-pane">
+        <div class="bp-header-strip">
+          <h3 class="bp-title">第六架構：素材清單與範疇界定（Assets & Scope）</h3>
+          <p class="bp-desc">外部 API 整合清單、視覺資產盤點、MVP 必做 vs 先不做範疇管制作業。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: var(--radius-sm); padding: 20px;">
+            <h4 style="color: #166534; font-weight: 800; font-size: 1.05rem; margin-bottom: 10px;">✅ MVP 核心必做清單 (P0 Scope IN)</h4>
+            <ul style="font-size: 0.9rem; color: #14532D; display: flex; flex-direction: column; gap: 8px; list-style: none;">
+              <li>✔ 每週固定 5 人同行配對（Weekly Crew）</li>
+              <li>✔ 每日三次短暫相聚時鐘排程（早/中/晚）</li>
+              <li>✔ 每日單一 Tiny Quest 認領機制</li>
+              <li>✔ Private Quest 隱私防護鎖</li>
+              <li>✔ 5 款低社交微表情互動（🌱 👏 ✨ 👍 ❤️）</li>
+              <li>✔ Shared Progress 小隊進度條與營地光影</li>
+              <li>✔ 週日營火結算與同盟紀念徽章</li>
+            </ul>
+          </div>
+          <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-sm); padding: 20px;">
+            <h4 style="color: #991B1B; font-weight: 800; font-size: 1.05rem; margin-bottom: 10px;">🚫 MVP 先不做清單 (Scope OUT)</h4>
+            <ul style="font-size: 0.9rem; color: #7F1D1D; display: flex; flex-direction: column; gap: 8px; list-style: none;">
+              <li>✖ 排行榜競賽 / 個人末位標註</li>
+              <li>✖ 開放式文字聊天室 / 隨機私訊 (DM) / 公開動態牆</li>
+              <li>✖ 懲罰扣金機制 / Streak 中斷懲處</li>
+              <li>✖ 複雜 RPG 經驗值 / Boss 戰 / 商城道具充值</li>
+              <li>✖ AI 長時間虛擬陪聊</li>
+              <li>✖ AI 監考審查「有沒有真正學會」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 5分鐘講稿與評審問答防禦庫 (Speech & Q&A) -->
+  <section id="qa" class="section">
+    <div class="container">
+      <div class="section-badge">09 ｜ Q&A攻防庫</div>
+      <h2 class="section-title">三大問答</h2>
+
+      <div class="qa-grid">
+        <div class="qa-card">
+          <span class="qa-q-badge">Question 1 ｜ 競品差異</span>
+          <h3 class="qa-question">市面上有很多打卡或待辦 App，伍伴和它們最大的區別是什麼？</h3>
+          <div class="qa-answer">
+            <strong>策略1</strong>：<br>
+            「傳統打卡工具如 Forest 或 Habitica，本質上是『自律檢查』或『遊戲競爭』，強調連續天數與排行榜，但這往往給拖延者帶來巨大的完美主義壓力和挫敗感。<br><br>
+            伍伴最大的差異在於<strong>『去競爭化與心理安全感』</strong>：我們嚴禁排行榜，首創『一鍵縮小為 5 分鐘』與『合法休息日零懲罰』機制。同時，我們是 Cooperative To-Do，每個人做自己的事，但努力會轉化為小隊的共同進度，讓陪伴溫暖在場，卻不形成人際負擔。」
+          </div>
+        </div>
+
+        <div class="qa-card">
+          <span class="qa-q-badge">Question 2 ｜ AI 定位</span>
+          <h3 class="qa-question">為什麼 AI 不做成一個可以一直聊天的英文陪聊 Bot？</h3>
+          <div class="qa-answer">
+            <strong>策略2</strong>：<br>
+            「這是一個非常關鍵的設計決策。我們在初期就確立了<strong>『人機分工原則』</strong>：真人的同儕存在才是陪伴的主體，如果把 AI 做成陪聊 Bot，不僅會讓使用者長時間黏在手機螢幕上，違背我們『短暫碰面、回到生活行動』的宗旨，更會陷入與通用大語言模型的算力競賽。<br><br>
+            因此，我們刻意讓 AI 退居二線，專注擔任『決策漏斗』與『結構化反思』，把省下來的時間還給使用者去進行真正的口說練習。」
+          </div>
+        </div>
+
+        <div class="qa-card">
+          <span class="qa-q-badge">Question 3 ｜ 作弊質疑</span>
+          <h3 class="qa-question">外部任務（例如自修閱讀）採用信任制，不怕使用者作弊假打卡嗎？</h3>
+          <div class="qa-answer">
+            <strong>策略3</strong>：<br>
+            「伍伴在設計時堅持『相信使用者』，原因有二：<br><br>
+            第一，伍伴不是發放現金或學分認證的監考系統，虛擬營火與小花園提供的是內在的情緒成就感，作弊並無法在現實中獲得外部利益；<br><br>
+            第二，如果強制要求上傳照片、錄影或 AI 審查心得，這道繁瑣的『防作弊摩擦力』會直接殺死『像喝水一樣自然開始』的微步體驗。我們選擇把信任還給使用者，讓他們能誠實面對自己的進度。」
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 未來擴散性 (Future Roadmap) -->
+  <section id="roadmap" class="section section-alt">
+    <div class="container">
+      <div class="section-badge">10 ｜ 未來擴散性與落地</div>
+      <h2 class="section-title">同一個核心概念，兩種商業落地路徑</h2>
+      <p class="section-subtitle">
+        從企業內部的 LiveABC 學習啟動層，到面向廣大自主學習者的獨立行動陪伴生態系。
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 30px;">
+        <div style="background: #FFFFFF; border-radius: var(--radius-md); padding: 36px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); text-transform: uppercase;">Phase 1 ｜ 企業專題主提案</div>
+          <h3 style="font-size: 1.4rem; font-weight: 800; margin: 8px 0 14px;">LiveABC 附加功能模組</h3>
+          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px;">
+            作為 LiveABC 現有教材前面的「學習啟動層」，無需重做教材。Weekly Crew 提供低壓同行，AI Action Coach 根據學員空檔精準導流口說與聽力單元。
+          </p>
+          <ul style="font-size: 0.9rem; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; list-style: none;">
+            <li>🔸 <strong>活化既有教材</strong>：不必重做內容，也能提高教材實際使用率</li>
+            <li>🔸 <strong>降低學習啟動阻力</strong>：AI依狀態推薦下一步，讓使用者更快開始</li>
+            <li>🔸 <strong>提升回流與持續學習</strong>：五人低壓同行，增加陪伴感與回來學習的理由</li>
+          </ul>
+        </div>
+
+        <div style="background: #FFFFFF; border-radius: var(--radius-md); padding: 36px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-warm); text-transform: uppercase;">Phase 2 ｜ 獨立產品生態</div>
+          <h3 style="font-size: 1.4rem; font-weight: 800; margin: 8px 0 14px;">獨立 App「伍伴 Wuplet」</h3>
+          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px;">
+            打破英語學科限制，跨足至全場景個人成長。底層是 Cooperative Personal To-Do，品牌世界則是「五個小生物的每週營地」。
+          </p>
+          <ul style="font-size: 0.9rem; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; list-style: none;">
+            <li>🔸 <strong>跨域行動啟動平台</strong>：日文、健身、個人專案...不只學習，任何個人目標都能套用</li>
+            <li>🔸 <strong>品牌社群與IP延伸</strong>：以溫暖陪伴角色建立認同，正向同行文化可延伸內容與周邊</li>
+            <li>🔸 <strong>可累積的個人成長系統</strong>：AI越用越懂你，逐步降低行動阻力</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <img src="pdf_slides/v2_slide_7.png" alt="未來擴散性圖解" style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-light);">
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 資源下載專區 (Downloads Hub) -->
+  <section id="downloads" class="section">
+    <div class="container">
+      <div class="section-badge">11 ｜ 專案完整原始檔案</div>
+      <h2 class="section-title">成果專題資料庫</h2>
+      <p class="section-subtitle">
+        點擊即可在本地端檢視或開啟各項原始文件與高畫質素材。
+      </p>
+
+      <div class="download-grid">
+        <a href="希伯崙_伍伴Wuplet_吳采嬅_version2.docx" class="dl-card" download>
+          <div class="dl-icon">📘</div>
+          <div class="dl-title">專題提案</div>
+          <div class="dl-type">Word 文件 (.docx)</div>
+          <span class="dl-btn-link">開啟檔案 ➔</span>
+        </a>
+
+        <a href="希伯崙_伍伴AI Action Coach_吳采嬅/希伯崙_伍伴AI Action Coach_吳采嬅v2.pdf" class="dl-card" target="_blank">
+          <div class="dl-icon">📊</div>
+          <div class="dl-title">發表簡報</div>
+          <div class="dl-type">PDF 簡報 (.pdf)</div>
+          <span class="dl-btn-link">線上檢視 ➔</span>
+        </a>
+
+        <a href="Wuplet_Presentation.mp4" class="dl-card" download>
+          <div class="dl-icon">🎬</div>
+          <div class="dl-title">DEMO影片</div>
+          <div class="dl-type">MP4 影音 (55 MB)</div>
+          <span class="dl-btn-link">播放影片 ➔</span>
+        </a>
+
+        <a href="Wuplet_伍伴_六大架構開發藍圖.md" class="dl-card" target="_blank">
+          <div class="dl-icon">📐</div>
+          <div class="dl-title">六大架構開發藍圖</div>
+          <div class="dl-type">Markdown 規範 (.md)</div>
+          <span class="dl-btn-link">檢視規格 ➔</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 頁尾 (Footer) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>伍伴 Wuplet</h3>
+          <p>
+            「各自生活，有伴前進。」<br>
+            以低負擔的同儕在場感與 AI 任務微步化，為自主學習者消除開始阻力。<br>
+            希伯崙 LiveABC 個人成果專題發表 ｜ 報告人：吳采嬅
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>專題核心導覽</h4>
+          <ul class="footer-links">
+            <li><a href="#painpoints">企業實務痛點</a></li>
+            <li><a href="#mechanisms">Weekly Crew 核心機制</a></li>
+            <li><a href="#ai-coach">AI Action Coach</a></li>
+            <li><a href="#slides">專案精華投影片</a></li>
+            <li><a href="#video">影音發表介紹</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>專案世界觀與規格</h4>
+          <ul class="footer-links">
+            <li><a href="#mascots">五大萌芽角色體系</a></li>
+            <li><a href="#blueprint">六大架構開發藍圖</a></li>
+            <li><a href="#qa">問答攻防擬答庫</a></li>
+            <li><a href="#roadmap">未來擴散性與商業落地</a></li>
+            <li><a href="#downloads">完整檔案資料庫</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        伍伴 Wuplet © 2026 LiveABC 希伯崙成果專題發表 ｜ Designed & Presented by 吳采嬅
+      </div>
+    </div>
+  </footer>
+
+  <!-- 核心互動邏輯腳本 (Inline Script for single-file self-containment) -->
+  <script>
+    // 1. Web Audio API 音效合成器
+    class SoundSynthesizer {
+      constructor() {
+        this.ctx = null;
+        this.campfireNode = null;
+        this.isPlayingCampfire = false;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      toggleCampfire() {
+        this.init();
+        if (this.isPlayingCampfire) {
+          this.stopCampfire();
+          return false;
+        } else {
+          this.startCampfire();
+          return true;
+        }
+      }
+      startCampfire() {
+        const bufferSize = this.ctx.sampleRate * 2;
+        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+        const whiteNoise = this.ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 450;
+        filter.Q.value = 1.2;
+
+        const gainNode = this.ctx.createGain();
+        gainNode.gain.value = 0.08;
+
+        whiteNoise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(this.ctx.destination);
+
+        whiteNoise.start();
+        this.campfireNode = { source: whiteNoise, gain: gainNode };
+        this.isPlayingCampfire = true;
+      }
+      stopCampfire() {
+        if (this.campfireNode) {
+          this.campfireNode.source.stop();
+          this.campfireNode = null;
+          this.isPlayingCampfire = false;
+        }
+      }
+      playChime() {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.35);
+      }
+    }
+
+    const soundSynth = new SoundSynthesizer();
+
+    // 2. 模擬器狀態與推薦池
+    const simData = {
+      stage: 'morning',
+      energy: 'normal',
+      time: '8m',
+      task: '【AI 口說】生活旅遊英語 — 咖啡館點餐實戰 (8分鐘)',
+      teamProgress: 65
+    };
+
+    const aiRecommendations = {
+      'low-5m': '【情境聽力】慢速生活英語 — 晨間問候短音頻 (5分鐘)',
+      'low-8m': '【單字精讀】10個最常用生活單字輕量翻卡 (8分鐘)',
+      'low-15m': '【雙語短片】LiveABC 探索世界系列精華篇 (12分鐘)',
+      'normal-5m': '【AI 口說】基礎日常寒暄微會話 (5分鐘)',
+      'normal-8m': '【AI 口說】生活旅遊英語 — 咖啡館點餐實戰 (8分鐘)',
+      'normal-15m': '【商務會話】會議開場與破冰實戰演練 (15分鐘)',
+      'focused-5m': '【口說挑戰】Shadowing 跟讀高頻句複誦 (5分鐘)',
+      'focused-8m': '【AI 口說】情境挑戰 — 機場辦理登機應對 (8分鐘)',
+      'focused-15m': '【綜合聽說】LiveABC 互動雜誌主題焦點對話 (15分鐘)'
+    };
+
+    // 3. 投影片資料集 (Version 2)
+    const slideData = [
+      {
+        num: 1,
+        file: 'pdf_slides/v2_slide_1.png',
+        title: 'Slide 1：封面 — 伍伴 Wuplet',
+        timing: '0:00 - 0:25 (建議 25秒)',
+        summary: '一個人學，也不必一個人開始 / Learn on your own. Never start alone.',
+        script: '各位評審老師好，我是吳采嬅。今天我的成果專題題目是《伍伴 Wuplet：以 AI 任務推薦與五人同行機制，打造 LiveABC 合作式個人英語學習模式》。先請大家回想：手機裡明明下載了最優質的教材，也知道有口說功能；但每天下班回到家坐在沙發上滑手機，想學英文的念頭卻遲遲沒有開始？'
+      },
+      {
+        num: 2,
+        file: 'pdf_slides/v2_slide_2.png',
+        title: 'Slide 2：企業實務痛點 — 有資源不等於有行動',
+        timing: '0:25 - 1:10 (建議 45秒)',
+        summary: 'Choice Overload（過度選擇） vs. Decision Paralysis（決策癱瘓）。Resource richness ≠ Action clarity。',
+        script: '這正是我們在希伯崙數位學習實務中觀察到的關鍵痛點：「有資源，不等於有行動。」LiveABC 擁有最頂尖的教材庫，但學員最大的流失往往發生在「打開教材之前」——面臨海量單元的選擇疲勞、單獨學習時脆弱的自律、以及傳統排行榜帶來的打卡焦慮。平台真正要突破的瓶頸，是如何消除「從想做、到開始做」之間的阻力。'
+      },
+      {
+        num: 3,
+        file: 'pdf_slides/v2_slide_3.png',
+        title: 'Slide 3：專案核心方向 — Social presence / Soft accountability / Shared progress',
+        timing: '1:10 - 1:50 (建議 40秒)',
+        summary: '有時候，我們缺的不是更多意志力，而是身旁剛好有一個人也站起來了。',
+        script: '為了解決這個瓶頸，我設計了這套全新功能模式《伍伴 Wuplet》。底層定位是 Cooperative Personal To-Do（合作式個人待辦）。我們的核心主張是：「各自生活，有伴前進。」請注意，伍伴不是要大家在線上聊天，而是「App 不能替你生活，它只能陪你出去生活。」把低負擔的陪伴放在個人行動之前，個人的努力轉化為小隊的共同進度。'
+      },
+      {
+        num: 4,
+        file: 'pdf_slides/v2_slide_4.png',
+        title: 'Slide 4：核心實作機制 — 各自做自己的事，卻一起往前',
+        timing: '1:50 - 2:40 (建議 50秒)',
+        summary: 'Weekly Crew（每週固定5人）+ 無排行榜 + 允許隱藏任務 + 休息也合法 (Ambient co-presence)',
+        script: '在具體實作上，伍伴設計了兩大創新行為機制：第一，【Weekly Crew 一週固定五人小隊】：系統每週一自動撮合 5 位節奏相近的學員組成固定小隊，不做名次競爭，剛好足夠建立「我知道你也在努力」的在場感。第二，【無排行榜、允許隱藏任務、休息合法】：彻底消滅完美主義罪惡感，個人的微步匯聚成團隊今日總進度。'
+      },
+      {
+        num: 5,
+        file: 'pdf_slides/v2_slide_5.png',
+        title: 'Slide 5：相聚哲學 — Meet briefly. Live fully. Come back together.',
+        timing: '2:40 - 3:25 (建議 45秒)',
+        summary: '一天三次短暫碰面：Morning (Set Out) → Midday (Live fully) → Evening (Come Back)。',
+        script: '我們設計了一天三次短暫碰面的節奏：早晨打開 App 看到 5 位隊友，領取 1 個 8 分鐘小任務，選完系統主動引導退出手機投入真實行動；中午太忙提供一鍵縮小為 5 分鐘微步或合法休息；傍晚歸隊以信任制回報，個人步數匯聚成營火微光，照亮小花園。短暫打開 App 得到陪伴後，回到真實生活！'
+      },
+      {
+        num: 6,
+        file: 'pdf_slides/v2_slide_6.png',
+        title: 'Slide 6：AI 導入效益 — 讓 AI 減少選擇，讓真人提供陪伴',
+        timing: '3:25 - 4:00 (建議 35秒)',
+        summary: 'AI reduces decision friction. Humans provide companionship. AI Mission Picker 縮短 80% 決策啟動時長。',
+        script: 'AI 在系統中扮演什麼角色？我們確立了「AI 負責消除決策摩擦，真人負責提供陪伴在場」。核心模組【AI Mission Picker】依學員「今天只有 8 分鐘空檔、精力普通、想練口說」，像漏斗一樣直接精準推薦單一單元，學員按下出發直接透過 Deep Link 喚起 LiveABC 既有教材！縮短 80% 挑選耗時，從冷漠數據轉為同行驅動。'
+      },
+      {
+        num: 7,
+        file: 'pdf_slides/v2_slide_7.png',
+        title: 'Slide 7：未來擴散性 — 從 LiveABC 附加功能到獨立 App',
+        timing: '4:00 - 4:30 (建議 30秒)',
+        summary: 'Phase 1: LiveABC 學習啟動層；Phase 2: 獨立版「伍伴 Wuplet」（跨閱讀、論文、課程、健身、程式全場景）。',
+        script: '在未來擴散性上，Phase 1 可無縫應用在希伯崙企業客戶的員工英語培訓或大學英語角同行營；Phase 2 則可獨立封裝為「伍伴 Wuplet」全場景個人成長 App，從英語跨足到閱讀、論文、寫作、健身、學程式，打造兼具 IP 角色與溫暖陪伴的自修生態系。「伍伴不是替你生活，而是讓你在往自己方向前進時，知道自己不是一個人。」'
+      },
+      {
+        num: 8,
+        file: 'pdf_slides/v1_slide_8.png',
+        title: 'Bonus 彩蛋：Wuplet 營地全景插畫與品牌箴言',
+        timing: '4:30 - 4:55 (結語與回顧)',
+        summary: '五人成伍，有人作伴。「做溫柔的減法，把人送回真實世界去行動。」',
+        script: '真正的產品智慧，往往不是堆砌更多功能，而是懂得為使用者做溫柔的減法。AI 的價值在於做一個安靜的推手，把人溫柔地推向真實世界去行動。伍伴 Wuplet，讓每個人各自生活，有伴前進！感謝希伯崙主管與評審老師，我是吳采嬅，請老師指教！'
+      }
+    ];
+
+    let currentSlideIdx = 0;
+
+    // DOM 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      // 營火聲音切換
+      const btnSound = document.getElementById('btnToggleCampfire');
+      if (btnSound) {
+        btnSound.addEventListener('click', () => {
+          const isPlaying = soundSynth.toggleCampfire();
+          if (isPlaying) {
+            btnSound.innerHTML = '🔥 營火微聲: 播放中';
+            btnSound.style.background = '#FEE2E2';
+            btnSound.style.borderColor = '#FCA5A5';
+            btnSound.style.color = '#B91C1C';
+          } else {
+            btnSound.innerHTML = '🔥 營火微聲';
+            btnSound.style.background = '';
+            btnSound.style.borderColor = '';
+            btnSound.style.color = '';
+          }
+        });
+      }
+
+      // 模擬器 Tab 切換
+      const tabBtns = document.querySelectorAll('.sim-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          simData.stage = btn.dataset.stage;
+          updateSimUI();
+          soundSynth.playChime();
+        });
+      });
+
+      // 模擬器選項切換
+      document.querySelectorAll('.opt-energy').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.opt-energy').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          simData.energy = btn.dataset.val;
+          updateSimTask();
+        });
+      });
+
+      document.querySelectorAll('.opt-time').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.opt-time').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          simData.time = btn.dataset.val;
+          updateSimTask();
+        });
+      });
+
+      const btnSimStart = document.getElementById('btnSimStart');
+      if (btnSimStart) {
+        btnSimStart.addEventListener('click', () => {
+          soundSynth.playChime();
+          alert('🌱 任務已選定！\n系統溫馨引導：\n「You\'re all set! 祝你今天順利，我們中午見。」\n\nApp 已引導您關閉手機，回到真實生活中實踐！');
+          document.querySelector('[data-stage="midday"]')?.click();
+        });
+      }
+
+      document.querySelectorAll('.opt-midday').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.opt-midday').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          soundSynth.playChime();
+          const action = btn.dataset.action;
+          if (action === 'shrink') {
+            simData.task = '【微步縮小】3句高頻口說句型朗讀 (5分鐘)';
+            document.getElementById('simCurrentTask').innerText = simData.task;
+            alert('✨ 完美主義解除！\n任務已縮小為 5 分鐘微步版本。隊友看到你的狀態為：🌱 調整微步前進中。');
+          } else if (action === 'rest') {
+            simData.task = '【合法休整日】今天好好充電，零罪惡感';
+            document.getElementById('simCurrentTask').innerText = simData.task;
+            alert('🛋️ 休息合法！\n已標記 Resting Today。營火邊你的小生物已安然倚靠睡墊，隊伍不扣任何進度。');
+          } else {
+            alert('💪 維持原任務！繼續在真實生活中前進。');
+          }
+        });
+      });
+
+      document.querySelectorAll('.opt-evening').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.opt-evening').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          soundSynth.playChime();
+          const result = btn.dataset.result;
+          const flame = document.querySelector('.sim-campfire-flame');
+          const progressFill = document.querySelector('.sim-progress-fill');
+          const progressNum = document.getElementById('simProgressText');
+          const reflectCard = document.getElementById('simReflectionResult');
+
+          if (result === 'done' || result === 'little') {
+            simData.teamProgress = Math.min(80, simData.teamProgress + (result === 'done' ? 8 : 5));
+            if (progressFill) progressFill.style.width = `${(simData.teamProgress / 80) * 100}%`;
+            if (progressNum) progressNum.innerText = `${simData.teamProgress} / 80 min`;
+            if (flame) {
+              flame.style.transform = 'scale(1.4)';
+              setTimeout(() => { flame.style.transform = ''; }, 600);
+            }
+            if (reflectCard) {
+              reflectCard.style.display = 'block';
+              reflectCard.innerText = result === 'done'
+                ? '✨ AI 營火微反思：今天順利在 8 分鐘內開口練習！哪一句點餐英文讓你最有成就感？微光已為小隊帶回！'
+                : '🌱 AI 營火微反思：即使今天很疲累，仍願意為自己前進 5 分鐘！這份微小的堅持正是最重要的自律微光。';
+            }
+          } else {
+            if (reflectCard) {
+              reflectCard.style.display = 'block';
+              reflectCard.innerText = '🌙 辛苦了！圍坐在營火旁也是前進的一部分。早點休息，明天又是嶄新的一天！';
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll('.reaction-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          soundSynth.playChime();
+          const emoji = btn.innerText;
+          const floater = document.createElement('div');
+          floater.innerText = emoji;
+          floater.style.position = 'fixed';
+          const rect = btn.getBoundingClientRect();
+          floater.style.left = `${rect.left + 10}px`;
+          floater.style.top = `${rect.top}px`;
+          floater.style.fontSize = '1.8rem';
+          floater.style.pointerEvents = 'none';
+          floater.style.zIndex = '9999';
+          floater.style.transition = 'all 1s cubic-bezier(0.2, 0.8, 0.2, 1)';
+          document.body.appendChild(floater);
+          requestAnimationFrame(() => {
+            floater.style.transform = 'translateY(-60px) scale(1.4)';
+            floater.style.opacity = '0';
+          });
+          setTimeout(() => floater.remove(), 1000);
+        });
+      });
+
+      // 投影片初始化
+      initSlides();
+
+      // 影片章節快速跳轉
+      initVideo();
+
+      // 六大架構 Tab
+      initBlueprint();
+    });
+
+    function updateSimTask() {
+      const key = `${simData.energy}-${simData.time}`;
+      simData.task = aiRecommendations[key] || '【AI 口說】日常情境實戰 (8分鐘)';
+      const taskEl = document.getElementById('simCurrentTask');
+      if (taskEl) taskEl.innerText = simData.task;
+    }
+
+    function updateSimUI() {
+      document.getElementById('simMorningControls').style.display = simData.stage === 'morning' ? 'block' : 'none';
+      document.getElementById('simMiddayControls').style.display = simData.stage === 'midday' ? 'block' : 'none';
+      document.getElementById('simEveningControls').style.display = simData.stage === 'evening' ? 'block' : 'none';
+
+      const tag = document.getElementById('simPhoneStageTag');
+      if (tag) {
+        if (simData.stage === 'morning') tag.innerText = '晨間啟航 08:30';
+        if (simData.stage === 'midday') tag.innerText = '午間檢核 12:45';
+        if (simData.stage === 'evening') tag.innerText = '晚間營火 20:30';
+      }
+    }
+
+    function initSlides() {
+      const currentImg = document.getElementById('slideCurrentImg');
+      const titleEl = document.getElementById('slideInfoTitle');
+      const timingEl = document.getElementById('slideInfoTiming');
+      const summaryEl = document.getElementById('slideInfoSummary');
+      const scriptEl = document.getElementById('slideInfoScript');
+      const counterEl = document.getElementById('slideCounter');
+      const thumbsTray = document.getElementById('slideThumbsTray');
+      const btnPrev = document.getElementById('btnSlidePrev');
+      const btnNext = document.getElementById('btnSlideNext');
+
+      if (!currentImg || !thumbsTray) return;
+
+      thumbsTray.innerHTML = '';
+      slideData.forEach((s, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = `slide-thumb ${idx === 0 ? 'active' : ''}`;
+        thumb.innerHTML = `<img src="${s.file}" alt="Slide ${s.num}">`;
+        thumb.addEventListener('click', () => goToSlide(idx));
+        thumbsTray.appendChild(thumb);
+      });
+
+      function goToSlide(idx) {
+        currentSlideIdx = idx;
+        const s = slideData[idx];
+        currentImg.src = s.file;
+        if (titleEl) titleEl.innerText = s.title;
+        if (summaryEl) summaryEl.innerText = s.summary;
+        if (scriptEl) scriptEl.innerText = s.script;
+        if (counterEl) counterEl.innerText = `${idx + 1} / ${slideData.length}`;
+
+        thumbsTray.querySelectorAll('.slide-thumb').forEach((t, i) => {
+          t.classList.toggle('active', i === idx);
+        });
+      }
+
+      btnPrev?.addEventListener('click', () => {
+        goToSlide((currentSlideIdx - 1 + slideData.length) % slideData.length);
+      });
+
+      btnNext?.addEventListener('click', () => {
+        goToSlide((currentSlideIdx + 1) % slideData.length);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') btnPrev?.click();
+        if (e.key === 'ArrowRight') btnNext?.click();
+      });
+    }
+
+    function initVideo() {
+      const video = document.getElementById('mainVideo');
+      const chapterItems = document.querySelectorAll('.chapter-item');
+      if (!video || !chapterItems.length) return;
+
+      chapterItems.forEach(item => {
+        item.addEventListener('click', () => {
+          video.currentTime = parseFloat(item.dataset.time);
+          video.play();
+          chapterItems.forEach(c => c.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+
+      video.addEventListener('timeupdate', () => {
+        const cur = video.currentTime;
+        chapterItems.forEach((item, i) => {
+          const timeSec = parseFloat(item.dataset.time);
+          const nextTimeSec = chapterItems[i + 1] ? parseFloat(chapterItems[i + 1].dataset.time) : 9999;
+          if (cur >= timeSec && cur < nextTimeSec) {
+            chapterItems.forEach(c => c.classList.remove('active'));
+            item.classList.add('active');
+          }
+        });
+      });
+    }
+
+    function initBlueprint() {
+      const tabBtns = document.querySelectorAll('.bp-tab-btn');
+      const panes = document.querySelectorAll('.bp-content-pane');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          panes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetId = btn.dataset.target;
+          document.getElementById(targetId)?.classList.add('active');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
